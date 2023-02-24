@@ -326,7 +326,7 @@ class EntryController extends ActionController
     private function emitActionSignal(string $signalName, array $assignedViewValues): array
     {
         $signalArguments = [];
-        $signalArguments['extendedVariables'] = [];
+        $signalArguments[] = [];
 
         $additionalViewValues = $this->signalSlotDispatcher->dispatch(static::class, $signalName, $signalArguments);
 
