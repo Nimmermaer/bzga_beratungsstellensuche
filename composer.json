@@ -32,7 +32,7 @@
         "typo3/cms-core": "^11.5",
         "typo3/cms-reports": "^11.5",
         "typo3/cms-scheduler": "^11.5",
-        "symfony/serializer": "^3.0",
+        "symfony/serializer": "^5.4",
         "sjbr/static-info-tables": "^11.5",
         "jambagecom/static-info-tables-de": "^6.0",
         "netzmacht/php-leaflet": "^1.1",
