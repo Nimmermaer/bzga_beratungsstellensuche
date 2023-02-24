@@ -330,7 +330,14 @@ class EntryController extends ActionController
 
         $additionalViewValues = $this->signalSlotDispatcher->dispatch(static::class, $signalName, $signalArguments);
 
-        return array_merge($assignedViewValues, $additionalViewValues['extendedVariables']);
+        if(
+            is_array($additionalViewValues) &&
+            array_key_exists('extendedVariables', $additionalViewValues) &&
+            is_array($additionalViewValues['extendedVariables'])
+        ) {
+            return array_merge($assignedViewValues, $additionalViewValues['extendedVariables']);
+        }
+        return $assignedViewValues;
     }
 
     private function addDemandRequestArgumentFromSession(): void
