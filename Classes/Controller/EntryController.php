@@ -82,7 +82,7 @@ class EntryController extends ActionController
         $this->sessionService = $sessionService;
     }
 
-    public function mapBuilder(MapBuilderInterface $mapBuilder): void
+    public function injectMapBuilder(MapBuilderInterface $mapBuilder): void
     {
         $this->mapBuilder = $mapBuilder;
     }
@@ -292,7 +292,9 @@ class EntryController extends ActionController
         }
 
         $this->view->assign('map', $this->mapBuilder->build($map));
-        return $this->htmlResponse();
+        return $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'text/javascript; charset=utf-8')
+            ->withBody($this->streamFactory->createStream($this->view->render()));
     }
 
     private function getTyposcriptFrontendController(): TypoScriptFrontendController

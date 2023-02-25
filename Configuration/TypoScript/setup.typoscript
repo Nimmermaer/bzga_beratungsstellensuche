@@ -33,6 +33,7 @@ plugin.tx_bzgaberatungsstellensuche {
             maximumLinks = {$plugin.tx_bzgaberatungsstellensuche.settings.list.maximumLinks}
         }
         map {
+            pageType = {$plugin.tx_bzgaberatungsstellensuche.settings.map.pageType}
             locale = {$plugin.tx_bzgaberatungsstellensuche.settings.map.locale}
             useSsl = {$plugin.tx_bzgaberatungsstellensuche.settings.map.useSsl}
             region = {$plugin.tx_bzgaberatungsstellensuche.settings.map.region}
@@ -46,3 +47,32 @@ plugin.tx_bzgaberatungsstellensuche {
 }
 
 module.tx_bzgaberatungsstellensuche < plugin.tx_bzgaberatungsstellensuche
+
+tx_bzgaberatungsstellensuche_map = PAGE
+tx_bzgaberatungsstellensuche_map {
+  typeNum = {$plugin.tx_bzgaberatungsstellensuche.settings.map.pageType}
+  config {
+    disableAllHeaderCode = 1
+    xhtml_cleaning = 0
+    admPanel = 0
+    additionalHeaders.10.header = Content-Type: text/javascript
+    no_cache = 0
+    debug = 0
+  }
+  10 = USER
+  10 {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = BzgaBeratungsstellensuche
+    pluginName = Pi1
+    vendorName = Bzga
+    controller = Entry
+    switchableControllerActions {
+      Entry {
+        1 = mapJavaScript
+      }
+    }
+    view < plugin.tx_bzgaberatungsstellensuche.view
+    persistence < plugin.tx_bzgaberatungsstellensuche.persistence
+    settings < plugin.tx_bzgaberatungsstellensuche.settings
+  }
+}

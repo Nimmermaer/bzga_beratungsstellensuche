@@ -42,4 +42,5 @@
         <hr />
     </f:if>
     <div style="width: 100%; height: 300px; " id="{mapId}"></div>
+    <script src="{f:uri.action(action:'mapJavaScript',pageType:settings.map.pageType,arguments:'{mapId:mapId,mainEntry:entry}')}"></script>
 </f:section>

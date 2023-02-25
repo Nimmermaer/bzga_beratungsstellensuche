@@ -22,6 +22,7 @@ plugin.tx_bzgaberatungsstellensuche {
             maximumLinks = 10
         }
         map {
+            pageType = 1677259051
             pathToDefaultMarker = EXT:bzga_beratungsstellensuche/Resources/Public/Icons/default.png
             pathToActiveMarker = EXT:bzga_beratungsstellensuche/Resources/Public/Icons/active.png
             apiKey =

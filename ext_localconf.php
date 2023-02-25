@@ -37,8 +37,8 @@ call_user_func(function ($packageKey) {
     ExtensionUtility::configurePlugin(
         'BzgaBeratungsstellensuche',
         'Pi1',
-        [EntryController::class => 'list,show,form,autocomplete'],
-        [EntryController::class => 'list,form,autocomplete']
+        [EntryController::class => 'list,show,form,autocomplete,mapJavaScript'],
+        [EntryController::class => 'list,form,autocomplete,mapJavaScript']
     );
 
     $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
