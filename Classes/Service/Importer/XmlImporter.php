@@ -73,7 +73,10 @@ class XmlImporter extends AbstractImporter
         $this->entryManager->persist();
     }
 
-    private function convertRelations(Traversable $relations = null, AbstractManager $manager, string $relationClassName, int $pid): void
+    /**
+     * @api
+     */
+    public function convertRelations(Traversable $relations = null, AbstractManager $manager, string $relationClassName, int $pid): void
     {
         if ($relations instanceof Traversable) {
             foreach ($relations as $relationData) {
