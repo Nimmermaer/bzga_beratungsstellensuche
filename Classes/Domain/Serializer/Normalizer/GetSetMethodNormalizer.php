@@ -79,7 +79,7 @@ class GetSetMethodNormalizer extends BaseGetSetMethodNormalizer
             }
 
             $allowed = $allowedAttributes === false || in_array($attribute, $allowedAttributes);
-            $ignored = in_array($attribute, $this->ignoredAttributes);
+            $ignored = in_array($attribute, $context[self::IGNORED_ATTRIBUTES] ?? []);
 
             if ($allowed && !$ignored) {
                 $setter = 'set' . ucfirst($attribute);
