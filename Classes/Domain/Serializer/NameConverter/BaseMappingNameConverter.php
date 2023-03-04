@@ -92,9 +92,11 @@ class BaseMappingNameConverter extends CamelCaseToSnakeCaseNameConverter
     protected function emitMapNamesSignal(): void
     {
         $signalArguments = [];
-        $signalArguments['extendedMapNames'] = [];
+        $signalArguments[] = [];
 
         $mapNames = $this->signalSlotDispatcher->dispatch(static::class, Events::SIGNAL_MAP_NAMES, $signalArguments);
-        $this->addAdditionalMapNames($mapNames['extendedMapNames']);
+        if(array_key_exists('extendedMapNames', $mapNames)) {
+            $this->addAdditionalMapNames($mapNames['extendedMapNames']);
+        }
     }
 }
