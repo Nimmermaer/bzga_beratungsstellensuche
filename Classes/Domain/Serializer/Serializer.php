@@ -39,7 +39,9 @@ class Serializer extends BaseSerializer
         }
         if (empty($encoders)) {
             $encoders = [
-                new XmlEncoder(['beratungsstellen']),
+                new XmlEncoder([
+                    XmlEncoder::ROOT_NODE_NAME =>'beratungsstellen'
+                ]),
             ];
         }
 
