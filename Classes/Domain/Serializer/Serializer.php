@@ -56,7 +56,7 @@ class Serializer extends BaseSerializer
     private function emitAdditionalNormalizersSignal(array $normalizers): array
     {
         $signalArguments = [];
-        $signalArguments['extendedNormalizers'] = [];
+        $signalArguments[] = [];
 
         $additionalNormalizers = $this->signalSlotDispatcher->dispatch(
             static::class,
@@ -64,6 +64,13 @@ class Serializer extends BaseSerializer
             $signalArguments
         );
 
-        return array_merge($normalizers, $additionalNormalizers['extendedNormalizers']);
+        if(
+            is_array($additionalNormalizers) &&
+            array_key_exists('extendedNormalizers', $additionalNormalizers) &&
+            is_array($additionalNormalizers['extendedNormalizers'])
+        ) {
+            return array_merge($normalizers, $additionalNormalizers['extendedNormalizers']);
+        }
+        return $normalizers;
     }
 }
