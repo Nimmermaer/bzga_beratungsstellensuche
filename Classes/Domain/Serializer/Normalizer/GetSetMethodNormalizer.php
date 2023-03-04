@@ -101,7 +101,7 @@ class GetSetMethodNormalizer extends BaseGetSetMethodNormalizer
     protected function emitDenormalizeCallbacksSignal(array $callbacks): array
     {
         $signalArguments = [];
-        $signalArguments['extendedCallbacks'] = [];
+        $signalArguments[] = [];
 
         $additionalCallbacks = $this->signalSlotDispatcher->dispatch(
             static::class,
