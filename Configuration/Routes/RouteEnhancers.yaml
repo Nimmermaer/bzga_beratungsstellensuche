@@ -1,0 +1,28 @@
+routeEnhancers:
+  BzgaBeratungsstellensuche:
+    type: Extbase
+    extension: BzgaBeratungsstellensuche
+    plugin: Pi1
+    routes:
+      - routePath: '/'
+        _controller: 'Entry::list'
+      - routePath: '/suche'
+        _controller: 'Term::search'
+      - routePath: '/show/{entry-title}'
+        _controller: 'Entry::show'
+        _arguments:
+          entry-title: entry
+      - routePath: '/page-{page}'
+        _controller: 'Entry::list'
+        _arguments:
+          page: currentPage
+    defaultController: 'Entry::list'
+    aspects:
+      entry-title:
+        type: PersistedAliasMapper
+        tableName: tx_bzgaberatungsstellensuche_domain_model_entry
+        routeFieldName: slug
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '100'
