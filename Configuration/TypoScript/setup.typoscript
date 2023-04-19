@@ -10,6 +10,7 @@ plugin.tx_bzgaberatungsstellensuche {
         partialRootPaths {
             0 = EXT:bzga_beratungsstellensuche/Resources/Private/Partials/
             5 = EXT:numbered_pagination/Resources/Private/Partials/
+            7 = EXT:bzga_beratungsstellensuche/Resources/Private/Partials/
             100 = {$plugin.tx_bzgaberatungsstellensuche.view.partialRootPath}
         }
         layoutRootPaths {
