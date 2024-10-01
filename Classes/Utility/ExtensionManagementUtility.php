@@ -41,7 +41,7 @@ class ExtensionManagementUtility
 
     public static function addAdditionalFormField(array $field): void
     {
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['formFields'])) {
+        if (!array_key_exists('formFields',$GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']) || !is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['formFields'])) {
             $GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['formFields'] = [];
         }
         $GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['formFields'][] = $field;
@@ -49,7 +49,7 @@ class ExtensionManagementUtility
 
     public static function registerExtensionKey(string $extensionKey, int $priority): void
     {
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['extensionKeys'])) {
+        if (!array_key_exists('bzga_beratungsstellensuche', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']) || !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['extensionKeys'])) {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['extensionKeys'] = [];
         }
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['extensionKeys'][$priority] = $extensionKey;
@@ -66,7 +66,7 @@ class ExtensionManagementUtility
 
     public static function registerTypeConverter(string $typeConverterClassName): void
     {
-        if (!is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['typeConverters'])) {
+        if (!array_key_exists('typeConverters', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']) || !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['typeConverters'])) {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['typeConverters'] = [];
         }
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['bzga_beratungsstellensuche']['typeConverters'][] = $typeConverterClassName;

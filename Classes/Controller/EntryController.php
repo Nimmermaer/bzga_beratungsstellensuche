@@ -140,7 +140,7 @@ class EntryController extends ActionController
         }
     }
 
-    public function listAction(Demand $demand = null): void
+    public function listAction(Demand $demand = null): ResponseInterface
     {
         if (!$demand instanceof Demand) {
             $demand = GeneralUtility::makeInstance(Demand::class);
@@ -169,6 +169,7 @@ class EntryController extends ActionController
         $assignedViewValues = compact('entries', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
         $assignedViewValues = $this->emitActionSignal(Events::LIST_ACTION_SIGNAL, $assignedViewValues);
         $this->view->assignMultiple($assignedViewValues);
+        return $this->htmlResponse();
     }
 
     public function initializeShowAction(): void
@@ -322,7 +323,7 @@ class EntryController extends ActionController
 
     private function emitInitializeActionSignal(array $signalArguments): void
     {
-        $this->signalSlotDispatcher->dispatch(static::class, Events::INITIALIZE_ACTION_SIGNAL, $signalArguments);
+//        $this->signalSlotDispatcher->dispatch(static::class, Events::INITIALIZE_ACTION_SIGNAL, $signalArguments);
     }
 
     private function emitActionSignal(string $signalName, array $assignedViewValues): array

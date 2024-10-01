@@ -41,7 +41,7 @@ class XmlImporter extends AbstractImporter
 
         $this->sxe = new SimpleXMLIterator($content);
 
-        $this->emitImportSignal(Events::PRE_IMPORT_SIGNAL);
+//        $this->emitImportSignal(Events::PRE_IMPORT_SIGNAL);
 
         // Import beratungsarten
         $this->convertRelations($this->sxe->beratungsarten->beratungsart, $this->categoryManager, Category::class, $pid);
@@ -69,7 +69,7 @@ class XmlImporter extends AbstractImporter
     public function persist(): void
     {
         // In the end we are calling all the managers to persist, this saves a lot of memory
-        $this->emitImportSignal(Events::POST_IMPORT_SIGNAL);
+//        $this->emitImportSignal(Events::POST_IMPORT_SIGNAL);
         $this->entryManager->persist();
     }
 
@@ -85,10 +85,10 @@ class XmlImporter extends AbstractImporter
         }
     }
 
-    private function emitImportSignal(string $signal): void
-    {
-        $this->signalSlotDispatcher->dispatch(static::class, $signal, [$this, $this->sxe, $this->pid, $this->serializer]);
-    }
+//    private function emitImportSignal(string $signal): void
+//    {
+//        $this->signalSlotDispatcher->dispatch(static::class, $signal, [$this, $this->sxe, $this->pid, $this->serializer]);
+//    }
 
     private function convertRelation(AbstractManager $manager, string $relationClassName, int $pid, \SimpleXMLIterator $relationData): void
     {

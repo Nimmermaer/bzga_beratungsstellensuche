@@ -51,14 +51,14 @@ class BaseMappingNameConverter extends CamelCaseToSnakeCaseNameConverter
     public function __construct(array $attributes = null, $lowerCamelCase = true, Dispatcher $signalSlotDispatcher = null)
     {
         parent::__construct($attributes, $lowerCamelCase);
-
-        if (!$signalSlotDispatcher instanceof Dispatcher) {
-            $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
-        }
-
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
-
-        $this->emitMapNamesSignal();
+//
+//        if (!$signalSlotDispatcher instanceof Dispatcher) {
+//            $signalSlotDispatcher = GeneralUtility::makeInstance(Dispatcher::class);
+//        }
+//
+//        $this->signalSlotDispatcher = $signalSlotDispatcher;
+//
+//        $this->emitMapNamesSignal();
         $this->mapNamesFlipped();
     }
 
@@ -80,7 +80,7 @@ class BaseMappingNameConverter extends CamelCaseToSnakeCaseNameConverter
      * @param array|string|null $propertyName
      * @return mixed|string|null
      */
-    public function denormalize($propertyName)
+    public function denormalize($propertyName): string
     {
         if (isset($this->mapNames[$propertyName])) {
             $propertyName = GeneralUtility::underscoredToLowerCamelCase($this->mapNames[$propertyName]);
@@ -94,9 +94,9 @@ class BaseMappingNameConverter extends CamelCaseToSnakeCaseNameConverter
         $signalArguments = [];
         $signalArguments[] = [];
 
-        $mapNames = $this->signalSlotDispatcher->dispatch(static::class, Events::SIGNAL_MAP_NAMES, $signalArguments);
-        if(array_key_exists('extendedMapNames', $mapNames)) {
-            $this->addAdditionalMapNames($mapNames['extendedMapNames']);
-        }
+       // $mapNames = $this->signalSlotDispatcher->dispatch(static::class, Events::SIGNAL_MAP_NAMES, $signalArguments);
+      //  if(array_key_exists('extendedMapNames', $mapNames)) {
+      //      $this->addAdditionalMapNames($mapNames['extendedMapNames']);
+      //  }
     }
 }

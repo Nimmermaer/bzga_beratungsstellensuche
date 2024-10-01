@@ -33,7 +33,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     protected CategoryManager $categoryManager;
 
-    protected Dispatcher $signalSlotDispatcher;
+//    protected Dispatcher $signalSlotDispatcher;
 
     public function importFromFile(string $file, int $pid = 0): void
     {
@@ -110,8 +110,8 @@ abstract class AbstractImporter implements ImporterInterface
         $this->serializer = $serializer;
     }
 
-    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
-    {
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
-    }
+//    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
+//    {
+//        $this->signalSlotDispatcher = $signalSlotDispatcher;
+//    }
 }

@@ -36,7 +36,7 @@ class EntryNormalizer extends GetSetMethodNormalizer
      */
     protected $categoryRepository;
 
-    public function __construct(ClassMetadataFactoryInterface $classMetadataFactory = null, Dispatcher $signalSlotDispatcher = null)
+    public function __construct(ClassMetadataFactoryInterface $classMetadataFactory = null, $signalSlotDispatcher = null)
     {
         parent::__construct($classMetadataFactory, new EntryNameConverter([], true, $signalSlotDispatcher));
     }
@@ -97,10 +97,8 @@ class EntryNormalizer extends GetSetMethodNormalizer
         $this->countryZoneRepository = $countryZoneRepository;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsDenormalization($data, $type, $format = null): bool
+
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === Entry::class;
     }

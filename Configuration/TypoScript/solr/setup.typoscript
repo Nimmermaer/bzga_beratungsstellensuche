@@ -24,7 +24,6 @@ plugin.tx_solr.index.queue {
                 typolink.additionalParams = &tx_bzgaberatungsstellensuche_pi1[controller]=Entry&tx_bzgaberatungsstellensuche_pi1[action]=show&tx_bzgaberatungsstellensuche_pi1[entry]={field:uid}
                 typolink.additionalParams.insertData = 1
                 typolink.returnLast = url
-                typolink.useCacheHash = 1
             }
             address_textS = street
             zip_textS = zip

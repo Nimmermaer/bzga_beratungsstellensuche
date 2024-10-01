@@ -1,83 +1,85 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <beratungsstellen version="2.1">
-    <referat id='famplan'>Sexualaufklärung und Familienplanung</referat>
-    <entrys>
-        <entry>
-            <index>2619</index>
-            <title>Fachstelle f&#xFC;r Sucht und Suchtpr&#xE4;vention</title>
-            <untertitel></untertitel>
-            <link>https://adressen.bzga.de/node/42</link>
-            <plz>40547</plz>
-            <ort>D&#xFC;sseldorf</ort>
-            <bundesland>10</bundesland>
-            <strasse>Musterstra&#xDF;e 1</strasse>
-            <mapx>8.12345</mapx>
-            <mapy>51.11111</mapy>
-            <telefon>07051 924870</telefon>
-            <fax></fax>
-            <email>max.mustermann@domain.com</email>
-            <traeger></traeger>
-            <website>http://www.domain.de</website>
-            <beratertelefon></beratertelefon>
-            <hinweistext>10:00 Uhr bis 22:00 Uhr Montag bis Sonntag</hinweistext>
-            <beratungsschein></beratungsschein>
-            <kostenuebernahmeverhuetung></kostenuebernahmeverhuetung>
-            <logo/>
-            <konfession></konfession>
-            <beratungsart>
-                <index>1</index>
-                <index>2</index>
-            </beratungsart>
-            <verband></verband>
-        </entry>
-        <entry>
-            <index>3108</index>
-            <title><![CDATA[Frauen & Mädchen Beratungsstelle]]></title>
-            <untertitel></untertitel>
-            <link>https://adressen.bzga.de/node/123</link>
-            <plz>90429</plz>
-            <ort>N&#xFC;rnberg</ort>
-            <bundesland>2</bundesland>
-            <strasse>F&#xFC;rther Stra&#xDF;e 123</strasse>
-            <mapx>11.12345</mapx>
-            <mapy>49.22222</mapy>
-            <telefon>0911 12345</telefon>
-            <fax>0911 12345</fax>
-            <email>info@example.org</email>
-            <traeger></traeger>
-            <website>http://www.example.org</website>
-            <beratertelefon></beratertelefon>
-            <hinweistext>Sprechzeiten:
+  <referat id="famplan">Sexualaufklärung und Familienplanung</referat>
+  <entrys>
+    <entry>
+      <index>2619</index>
+      <title>Fachstelle für Sucht und Suchtprävention</title>
+      <untertitel/>
+      <link>https://adressen.bzga.de/node/42</link>
+      <plz>40547</plz>
+      <ort>Düsseldorf</ort>
+      <bundesland>10</bundesland>
+      <strasse>Musterstraße 1</strasse>
+      <mapx>8.12345</mapx>
+      <mapy>51.11111</mapy>
+      <telefon>07051 924870</telefon>
+      <fax/>
+      <email>max.mustermann@domain.com</email>
+      <traeger/>
+      <website>http://www.domain.de</website>
+      <beratertelefon/>
+      <hinweistext>10:00 Uhr bis 22:00 Uhr Montag bis Sonntag</hinweistext>
+      <beratungsschein/>
+      <kostenuebernahmeverhuetung/>
+      <logo/>
+      <konfession/>
+      <beratungsart>
+        <index>1</index>
+        <index>2</index>
+      </beratungsart>
+      <verband/>
+    </entry>
+    <entry>
+      <index>3108</index>
+      <title>
+<![CDATA[Frauen & Mädchen Beratungsstelle]]>
+</title>
+      <untertitel/>
+      <link>https://adressen.bzga.de/node/123</link>
+      <plz>90429</plz>
+      <ort>Nürnberg</ort>
+      <bundesland>2</bundesland>
+      <strasse>Fürther Straße 123</strasse>
+      <mapx>11.12345</mapx>
+      <mapy>49.22222</mapy>
+      <telefon>0911 12345</telefon>
+      <fax>0911 12345</fax>
+      <email>info@example.org</email>
+      <traeger/>
+      <website>http://www.example.org</website>
+      <beratertelefon/>
+      <hinweistext>Sprechzeiten:
                 Montag 10:00 - 12:00 Uhr,
                 Dienstag 14:00 - 16:00 Uhr,
                 Donnerstag 15:00 - 17:00 Uhr
             </hinweistext>
-            <beratungsschein></beratungsschein>
-            <kostenuebernahmeverhuetung></kostenuebernahmeverhuetung>
-            <logo/>
-            <konfession></konfession>
-            <beratungsart>
-                <index>1</index>
-                <index>2</index>
-            </beratungsart>
-            <verband></verband>
-        </entry>
-    </entrys>
-    <beratungsarten>
-        <beratungsart>
-            <index>1</index>
-            <sort>?</sort>
-            <label>Pers&#xF6;nliche Beratung</label>
-        </beratungsart>
-        <beratungsart>
-            <index>2</index>
-            <sort>?</sort>
-            <label>Einzelberatung</label>
-        </beratungsart>
-        <beratungsart>
-            <index>3</index>
-            <sort>?</sort>
-            <label>Online-Beratung</label>
-        </beratungsart>
-    </beratungsarten>
+      <beratungsschein/>
+      <kostenuebernahmeverhuetung/>
+      <logo/>
+      <konfession/>
+      <beratungsart>
+        <index>1</index>
+        <index>2</index>
+      </beratungsart>
+      <verband/>
+    </entry>
+  </entrys>
+  <beratungsarten>
+    <beratungsart>
+      <index>1</index>
+      <sort>?</sort>
+      <label>Persönliche Beratung</label>
+    </beratungsart>
+    <beratungsart>
+      <index>2</index>
+      <sort>?</sort>
+      <label>Einzelberatung</label>
+    </beratungsart>
+    <beratungsart>
+      <index>3</index>
+      <sort>?</sort>
+      <label>Online-Beratung</label>
+    </beratungsart>
+  </beratungsarten>
 </beratungsstellen>

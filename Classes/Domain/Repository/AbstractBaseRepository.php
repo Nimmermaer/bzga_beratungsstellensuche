@@ -26,7 +26,7 @@ abstract class AbstractBaseRepository extends Repository
     /**
      * @var Dispatcher
      */
-    protected $signalSlotDispatcher;
+ //   protected $signalSlotDispatcher;
 
     /**
      * @var array<non-empty-string, QueryInterface::ORDER_*>
@@ -53,10 +53,10 @@ abstract class AbstractBaseRepository extends Repository
      */
     public const SYS_FILE_REFERENCE = 'sys_file_reference';
 
-    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
-    {
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
-    }
+//    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
+//    {
+//        $this->signalSlotDispatcher = $signalSlotDispatcher;
+//    }
 
     public function findOldEntriesByExternalUidsDiffForTable(string $table, array $entries): ?array
     {
@@ -77,7 +77,7 @@ abstract class AbstractBaseRepository extends Repository
         $constraints[] = $query->equals('externalId', $externalId);
         $constraints[] = $query->equals('hash', $hash);
 
-        return $query->matching($query->logicalAnd($constraints))->execute()->count();
+        return $query->matching($query->logicalAnd(...$constraints))->execute()->count();
     }
 
     /**

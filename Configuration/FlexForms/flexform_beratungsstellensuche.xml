@@ -1,73 +1,63 @@
+<?xml version="1.0"?>
 <T3DataStructure>
     <meta>
         <langDisable>1</langDisable>
     </meta>
-
     <sheets>
         <!--
-            ################################
-              SHEET General Settings
-            ################################
+        ################################
+        SHEET General Settings
+        ################################
         -->
         <sDEF>
             <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_tab.settings
-                    </sheetTitle>
-                </TCEforms>
-                <type>array</type>
-                <el>
-                    <!-- View -->
+                <sheetTitle>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_tab.settings
+            </sheetTitle>
+            <type>array</type>
+            <el>
+                <!-- View -->
                     <switchableControllerActions>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode
-                            </label>
-                            <onChange>reload</onChange>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items>
-                                    <numIndex index="1">
-                                        <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_list</numIndex>
-                                        <numIndex index="1">Entry->list;Entry->show;Entry->autocomplete</numIndex>
-                                    </numIndex>
-                                    <numIndex index="100">
-                                        <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_show</numIndex>
-                                        <numIndex index="1">Entry->show</numIndex>
-                                    </numIndex>
-                                    <numIndex index="200">
-                                        <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_form</numIndex>
-                                        <numIndex index="1">Entry->form;Entry->autocomplete</numIndex>
-                                    </numIndex>
-                                </items>
-                            </config>
-                        </TCEforms>
-                    </switchableControllerActions>
-
-                    <!-- startingpoint -->
+                        <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode
+                    </label>
+                    <onChange>reload</onChange>
+                    <config>
+                        <type>select</type>
+                        <renderType>selectSingle</renderType>
+                        <items>
+                            <numIndex index="1">
+                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_list</numIndex>
+                                <numIndex index="1">Entry-&gt;list;Entry-&gt;show;Entry-&gt;autocomplete</numIndex>
+                            </numIndex>
+                            <numIndex index="100">
+                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_show</numIndex>
+                                <numIndex index="1">Entry-&gt;show</numIndex>
+                            </numIndex>
+                            <numIndex index="200">
+                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_form</numIndex>
+                                <numIndex index="1">Entry-&gt;form;Entry-&gt;autocomplete</numIndex>
+                            </numIndex>
+                        </items>
+                    </config>
+                </switchableControllerActions>
+                <!-- startingpoint -->
                     <settings.startingpoint>
-                        <TCEforms>
-                            <label>LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.startingpoint</label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>db</internal_type>
-                                <allowed>pages</allowed>
-                                <size>3</size>
-                                <maxitems>50</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                                <wizards>
-                                    <suggest>
-                                        <type>suggest</type>
-                                    </suggest>
-                                </wizards>
-                            </config>
-                        </TCEforms>
+                        <label>LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.startingpoint</label>
+                        <config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <size>3</size>
+                            <maxitems>50</maxitems>
+                            <minitems>0</minitems>
+                            <show_thumbs>1</show_thumbs>
+                            <wizards>
+                                <suggest>
+                                    <type>suggest</type>
+                                </suggest>
+                            </wizards>
+                        </config>
                     </settings.startingpoint>
-
                     <!-- recursive -->
-                    <settings.recursive>
-                        <TCEforms>
+                        <settings.recursive>
                             <label>LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.recursive</label>
                             <config>
                                 <type>select</type>
@@ -99,34 +89,28 @@
                                     </numIndex>
                                 </items>
                             </config>
-                        </TCEforms>
-                    </settings.recursive>
-
-                </el>
-            </ROOT>
-        </sDEF>
-        <!--
-                    ################################
-                      SHEET Additional
-                    ################################
-                -->
-        <additional>
-            <ROOT>
-                <TCEforms>
+                        </settings.recursive>
+                    </el>
+                </ROOT>
+            </sDEF>
+            <!--
+            ################################
+            SHEET Additional
+            ################################
+            -->
+            <additional>
+                <ROOT>
                     <sheetTitle>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_tab.additional
-                    </sheetTitle>
-                </TCEforms>
+                </sheetTitle>
                 <type>array</type>
                 <el>
-
                     <!-- Form Fields -->
-                    <settings.formFields>
-                        <TCEforms>
+                        <settings.formFields>
                             <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.formFields</label>
                             <config>
                                 <type>select</type>
                                 <renderType>selectMultipleSideBySide</renderType>
-                                <itemsProcFunc>Bzga\BzgaBeratungsstellensuche\Hooks\ItemsProcFunc->user_formFields</itemsProcFunc>
+                                <itemsProcFunc>Bzga\BzgaBeratungsstellensuche\Hooks\ItemsProcFunc-&gt;user_formFields</itemsProcFunc>
                                 <items>
                                     <numIndex index="0" type="array">
                                         <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.formFields.keywords</numIndex>
@@ -152,119 +136,96 @@
                                 <maxitems>99</maxitems>
                                 <size>8</size>
                             </config>
-                        </TCEforms>
-                    </settings.formFields>
-
-
-                    <!-- PID Single Page -->
-                    <settings.singlePid>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.singlePid</label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>db</internal_type>
-                                <allowed>pages</allowed>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                                <wizards>
-                                    <suggest>
-                                        <type>suggest</type>
-                                    </suggest>
-                                </wizards>
-                            </config>
-                        </TCEforms>
-                    </settings.singlePid>
-
-                    <!-- PID Single Page -->
-                    <settings.listPid>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.listPid</label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>db</internal_type>
-                                <allowed>pages</allowed>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                                <wizards>
-                                    <suggest>
-                                        <type>suggest</type>
-                                    </suggest>
-                                </wizards>
-                            </config>
-                        </TCEforms>
-                    </settings.listPid>
-
-                    <!-- PID Back -->
-                    <settings.backPid>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.backPid</label>
-                            <config>
-                                <type>group</type>
-                                <internal_type>db</internal_type>
-                                <allowed>pages</allowed>
-                                <size>1</size>
-                                <maxitems>1</maxitems>
-                                <minitems>0</minitems>
-                                <show_thumbs>1</show_thumbs>
-                                <wizards>
-                                    <suggest>
-                                        <type>suggest</type>
-                                    </suggest>
-                                </wizards>
-                            </config>
-                        </TCEforms>
-                    </settings.backPid>
-
-                    <settings.list.itemsPerPage>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.itemsPerPage</label>
-                            <config>
-                                <type>input</type>
-                                <size>2</size>
-                            </config>
-                        </TCEforms>
-                    </settings.list.itemsPerPage>
-
-                </el>
-            </ROOT>
-        </additional>
-
-        <!--
-            ################################
-              SHEET Template
-            ################################
-        -->
-        <template>
-            <ROOT>
-                <TCEforms>
-                    <sheetTitle>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_tab.template
-                    </sheetTitle>
-                </TCEforms>
-                <type>array</type>
-                <el>
-                    <!-- Template Layout -->
-                    <settings.templateLayout>
-                        <TCEforms>
-                            <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_template.templateLayout</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <itemsProcFunc>Bzga\BzgaBeratungsstellensuche\Hooks\ItemsProcFunc->user_templateLayout</itemsProcFunc>
-                                <items>
-                                    <numIndex index="0" type="array">
-                                        <numIndex index="0"></numIndex>
-                                        <numIndex index="1"></numIndex>
-                                    </numIndex>
-                                </items>
-                            </config>
-                        </TCEforms>
-                    </settings.templateLayout>
-                </el>
-            </ROOT>
-        </template>
-    </sheets>
-</T3DataStructure>
+                        </settings.formFields>
+                        <!-- PID Single Page -->
+                            <settings.singlePid>
+                                <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.singlePid</label>
+                                <config>
+                                    <type>group</type>
+                                    <allowed>pages</allowed>
+                                    <size>1</size>
+                                    <maxitems>1</maxitems>
+                                    <minitems>0</minitems>
+                                    <show_thumbs>1</show_thumbs>
+                                    <wizards>
+                                        <suggest>
+                                            <type>suggest</type>
+                                        </suggest>
+                                    </wizards>
+                                </config>
+                            </settings.singlePid>
+                            <!-- PID Single Page -->
+                                <settings.listPid>
+                                    <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.listPid</label>
+                                    <config>
+                                        <type>group</type>
+                                        <allowed>pages</allowed>
+                                        <size>1</size>
+                                        <maxitems>1</maxitems>
+                                        <minitems>0</minitems>
+                                        <show_thumbs>1</show_thumbs>
+                                        <wizards>
+                                            <suggest>
+                                                <type>suggest</type>
+                                            </suggest>
+                                        </wizards>
+                                    </config>
+                                </settings.listPid>
+                                <!-- PID Back -->
+                                    <settings.backPid>
+                                        <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.backPid</label>
+                                        <config>
+                                            <type>group</type>
+                                            <allowed>pages</allowed>
+                                            <size>1</size>
+                                            <maxitems>1</maxitems>
+                                            <minitems>0</minitems>
+                                            <show_thumbs>1</show_thumbs>
+                                            <wizards>
+                                                <suggest>
+                                                    <type>suggest</type>
+                                                </suggest>
+                                            </wizards>
+                                        </config>
+                                    </settings.backPid>
+                                    <settings.list.itemsPerPage>
+                                        <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_additional.itemsPerPage</label>
+                                        <config>
+                                            <type>input</type>
+                                            <size>2</size>
+                                        </config>
+                                    </settings.list.itemsPerPage>
+                                </el>
+                            </ROOT>
+                        </additional>
+                        <!--
+                        ################################
+                        SHEET Template
+                        ################################
+                        -->
+                        <template>
+                            <ROOT>
+                                <sheetTitle>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_tab.template
+                            </sheetTitle>
+                            <type>array</type>
+                            <el>
+                                <!-- Template Layout -->
+                                    <settings.templateLayout>
+                                        <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_template.templateLayout</label>
+                                        <config>
+                                            <type>select</type>
+                                            <renderType>selectSingle</renderType>
+                                            <itemsProcFunc>Bzga\BzgaBeratungsstellensuche\Hooks\ItemsProcFunc-&gt;user_templateLayout</itemsProcFunc>
+                                            <items>
+                                                <numIndex index="0" type="array">
+                                                    <numIndex index="0"/>
+                                                    <numIndex index="1"/>
+                                                </numIndex>
+                                            </items>
+                                        </config>
+                                    </settings.templateLayout>
+                                </el>
+                            </ROOT>
+                        </template>
+                    </sheets>
+                </T3DataStructure>

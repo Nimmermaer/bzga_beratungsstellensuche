@@ -27,9 +27,9 @@ class Serializer extends BaseSerializer
     /**
      * @var Dispatcher
      */
-    protected $signalSlotDispatcher;
+  //  protected $signalSlotDispatcher;
 
-    public function __construct(array $normalizers = [], array $encoders = [], Dispatcher $signalSlotDispatcher = null)
+    public function __construct(array $normalizers = [], array $encoders = [], $signalSlotDispatcher = null)
     {
         if (empty($normalizers)) {
             $normalizers = [
@@ -45,9 +45,9 @@ class Serializer extends BaseSerializer
             ];
         }
 
-        $this->signalSlotDispatcher = $signalSlotDispatcher ?? GeneralUtility::makeInstance(Dispatcher::class);
+      //  $this->signalSlotDispatcher = $signalSlotDispatcher ?? GeneralUtility::makeInstance(Dispatcher::class);
 
-        $normalizers = $this->emitAdditionalNormalizersSignal($normalizers);
+    //   $normalizers = $this->emitAdditionalNormalizersSignal($normalizers);
 
         parent::__construct($normalizers, $encoders);
     }

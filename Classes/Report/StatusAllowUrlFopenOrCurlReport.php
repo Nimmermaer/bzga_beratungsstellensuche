@@ -50,4 +50,9 @@ class StatusAllowUrlFopenOrCurlReport implements StatusProviderInterface
 
         return $reports;
     }
+
+    public function getLabel(): string
+    {
+       return self::MESSAGE;
+    }
 }

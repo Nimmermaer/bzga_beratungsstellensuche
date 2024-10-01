@@ -15,13 +15,14 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\NameConverter\BaseMappingNa
 use Bzga\BzgaBeratungsstellensuche\Events;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer as BaseGetSetMethodNormalizer;
 use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 /**
  * @author Sebastian Schreiber
  */
-class GetSetMethodNormalizer extends BaseGetSetMethodNormalizer
+class GetSetMethodNormalizer extends AbstractObjectNormalizer
 {
     /**
      * @var Dispatcher
@@ -64,7 +65,7 @@ class GetSetMethodNormalizer extends BaseGetSetMethodNormalizer
     /**
      * @inheritDoc
      */
-    public function denormalize($data, $class, $format = null, array $context = [])
+    public function denormalize($data, $class, $format = null, array $context = []): mixed
     {
         $allowedAttributes = $this->getAllowedAttributes($class, $context, true);
         $normalizedData = $this->prepareForDenormalization($data);
@@ -116,8 +117,27 @@ class GetSetMethodNormalizer extends BaseGetSetMethodNormalizer
         return $callbacks;
     }
 
-    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
+//    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
+//    {
+//        $this->signalSlotDispatcher = $signalSlotDispatcher;
+//    }
+    protected function extractAttributes(object $object, ?string $format = null, array $context = []): array
     {
-        $this->signalSlotDispatcher = $signalSlotDispatcher;
+        return [];
+    }
+
+    protected function getAttributeValue(object $object, string $attribute, ?string $format = null, array $context = []): mixed
+    {
+        return '';
+    }
+
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = []): void
+    {
+        // TODO: Implement setAttributeValue() method.
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+       return []; 
     }
 }
