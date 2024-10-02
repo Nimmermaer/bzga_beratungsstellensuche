@@ -12,21 +12,18 @@ declare(strict_types=1);
 namespace Bzga\BzgaBeratungsstellensuche\Domain\Repository;
 
 use Doctrine\DBAL\Connection;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 /**
  * @author Sebastian Schreiber
  */
 abstract class AbstractBaseRepository extends Repository
 {
-    /**
-     * @var Dispatcher
-     */
- //   protected $signalSlotDispatcher;
+     protected EventDispatcherInterface $eventDispatcher;
 
     /**
      * @var array<non-empty-string, QueryInterface::ORDER_*>
@@ -53,10 +50,10 @@ abstract class AbstractBaseRepository extends Repository
      */
     public const SYS_FILE_REFERENCE = 'sys_file_reference';
 
-//    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
-//    {
-//        $this->signalSlotDispatcher = $signalSlotDispatcher;
-//    }
+    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
 
     public function findOldEntriesByExternalUidsDiffForTable(string $table, array $entries): ?array
     {

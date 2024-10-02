@@ -15,6 +15,7 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Model\Dto\Demand;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Entry;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\GeopositionInterface;
 use Bzga\BzgaBeratungsstellensuche\Events;
+use Bzga\BzgaBeratungsstellensuche\Events\Repository\RemoveEntryEvent;
 use Bzga\BzgaBeratungsstellensuche\Service\Geolocation\Decorator\GeolocationServiceCacheDecorator;
 use Bzga\BzgaBeratungsstellensuche\Service\Geolocation\GeolocationService;
 use RuntimeException;
@@ -53,10 +54,10 @@ class EntryRepository extends AbstractBaseRepository
     public function findByQuery(string $q)
     {
         $query = $this->createQuery();
-        return $query->matching($query->logicalOr([
+        return $query->matching($query->logicalOr(
             $query->like('zip', $q . '%'),
             $query->like('city', $q . '%'),
-        ]))->execute();
+        ))->execute();
     }
 
     public function findDemanded(Demand $demand)
@@ -80,7 +81,7 @@ class EntryRepository extends AbstractBaseRepository
             }
 
             if (count($searchConstraints)) {
-                $constraints[] = $query->logicalOr($searchConstraints);
+                $constraints[] = $query->logicalOr(...$searchConstraints);
             }
         }
 
@@ -90,7 +91,7 @@ class EntryRepository extends AbstractBaseRepository
                 $categoryConstraints[] = $query->contains('categories', $category);
             }
             if (! empty($categoryConstraints)) {
-                $constraints[] = $query->logicalOr($categoryConstraints);
+                $constraints[] = $query->logicalOr(...$categoryConstraints);
             }
         }
 
@@ -111,7 +112,7 @@ class EntryRepository extends AbstractBaseRepository
         }
 
         if (! empty($constraints) && is_array($constraints)) {
-            $query->matching($query->logicalAnd($constraints));
+            $query->matching($query->logicalAnd(...$constraints));
         }
 
         // Bug. Counting is wrong in TYPO3 Version 8 Doctrine, if we do not use custom statement here. Why?
@@ -139,11 +140,9 @@ class EntryRepository extends AbstractBaseRepository
         foreach ($entries as $entry) {
             $this->deleteByUid($entry['uid']);
         }
+        $event = new Events\Repository\TruncateAllEvent($this);
+        $this->eventDispatcher->dispatch($event);
 
-        $this->signalSlotDispatcher->dispatch(
-            static::class,
-            Events::TABLE_TRUNCATE_ALL_SIGNAL
-        );
     }
 
     private function createCoordsConstraints(
@@ -195,11 +194,7 @@ class EntryRepository extends AbstractBaseRepository
             $this->remove($entry);
             $this->persistenceManager->persistAll();
         }
-
-        $this->signalSlotDispatcher->dispatch(
-            static::class,
-            Events::REMOVE_ENTRY_FROM_DATABASE_SIGNAL,
-            ['uid' => $uid]
-        );
+        $event = new RemoveEntryEvent($this, $uid);
+        $this->eventDispatcher->dispatch($event);
     }
 }

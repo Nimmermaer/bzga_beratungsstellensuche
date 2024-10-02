@@ -16,10 +16,10 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Manager\EntryManager;
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Serializer;
 use Bzga\BzgaBeratungsstellensuche\Domain\ValueObject\ImportAuthorization;
 use Bzga\BzgaBeratungsstellensuche\Service\Importer\Exception\ContentCouldNotBeFetchedException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use UnexpectedValueException;
 
 /**
@@ -33,13 +33,17 @@ abstract class AbstractImporter implements ImporterInterface
 
     protected CategoryManager $categoryManager;
 
-//    protected Dispatcher $signalSlotDispatcher;
+    public function __construct(
+        protected readonly EventDispatcherInterface $eventDispatcher,
+    )
+    {
+    }
 
     public function importFromFile(string $file, int $pid = 0): void
     {
         $file = GeneralUtility::getFileAbsFileName($file);
 
-        if (! file_exists($file)) {
+        if (!file_exists($file)) {
             throw new FileDoesNotExistException(sprintf('The file %s does not exists', $file));
         }
 
@@ -54,7 +58,7 @@ abstract class AbstractImporter implements ImporterInterface
 
     public function importFromUrl(string $url, ImportAuthorization $importAuthorization, int $pid = 0): void
     {
-        if (! GeneralUtility::isValidUrl($url)) {
+        if (!GeneralUtility::isValidUrl($url)) {
             throw new UnexpectedValueException(sprintf('This is not a valid url: "%s"', $url));
         }
 
@@ -76,7 +80,7 @@ abstract class AbstractImporter implements ImporterInterface
 
         $headers = [
             'Authorization' => 'Bearer ' . $json['access_token'],
-            'Accept'        => 'application/xml',
+            'Accept' => 'application/xml',
         ];
 
         $response = $requestFactory->request($url, 'GET', [
@@ -109,9 +113,4 @@ abstract class AbstractImporter implements ImporterInterface
     {
         $this->serializer = $serializer;
     }
-
-//    public function injectSignalSlotDispatcher(Dispatcher $signalSlotDispatcher): void
-//    {
-//        $this->signalSlotDispatcher = $signalSlotDispatcher;
-//    }
 }
