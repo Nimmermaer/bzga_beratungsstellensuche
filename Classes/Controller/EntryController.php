@@ -168,7 +168,8 @@ class EntryController extends ActionController
             'paginator' => $paginator,
             'pagination' => $pagination,
         ]);
-        $assignedViewValues = compact('entries', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
+        $mapId = sprintf('map_%s', StringUtility::getUniqueId());
+        $assignedViewValues = compact('entries', 'mapId', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
         $event = new Events\Entry\ListActionEvent($this->request, $demand, $assignedViewValues);
         $this->view->assignMultiple($event->getAssignedViewValues());
         return $this->htmlResponse();
@@ -185,7 +186,6 @@ class EntryController extends ActionController
             // @TODO: Add possibility to hook into here.
             $this->redirect('list', null, null, [], $this->settings['listPid'], null, 404);
         }
-
         $mapId = sprintf('map_%s', StringUtility::getUniqueId());
         $assignedViewValues = compact('entry', 'demand', 'mapId');
         $event = new Events\Entry\ShowActionEvent($this->request, $demand, $assignedViewValues);
@@ -258,7 +258,7 @@ class EntryController extends ActionController
             $popUp = $this->mapBuilder->createPopUp('popUp');
 
             // Call hook functions for modify the info window
-            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyInfoWindow'])) {
+            if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyInfoWindow'] ?? false) {
                 $params = [
                     'popUp' => &$popUp,
                     'isCurrentMarker' => $isCurrentMarker,
@@ -272,7 +272,7 @@ class EntryController extends ActionController
             $marker->addPopUp($popUp, $entry->getInfoWindow($infoWindowParameters), $isCurrentMarker);
 
             // Call hook functions for modify the marker
-            if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyMarker'])) {
+            if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyMarker'] ?? false) {
                 $params = [
                     'marker' => &$marker,
                     'isCurrentMarker' => $isCurrentMarker,
@@ -285,7 +285,7 @@ class EntryController extends ActionController
         }
 
         // Call hook functions for modify the map
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyMap'])) {
+        if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche']['ViewHelpers/Widget/Controller/MapController.php']['modifyMap'] ?? false) {
             $params = [
                 'map' => &$map,
             ];
@@ -345,7 +345,7 @@ class EntryController extends ActionController
     {
         $demand = $this->sessionService->restoreFromSession();
         if ($demand) {
-            $this->request->setArgument('demand', $demand);
+            $this->request = $this->request->withArguments(['demand' => $demand]);
         }
     }
 
@@ -353,7 +353,7 @@ class EntryController extends ActionController
     {
         if ($this->request->hasArgument('reset')) {
             $this->sessionService->cleanUpSession();
-            $this->request->setArgument('demand', null);
+            $this->request = $this->request->withArguments(['demand' => null]);
         }
     }
 }

@@ -183,7 +183,7 @@ class ClassCacheManager implements SingletonInterface
     public function clear(): void
     {
         $this->cacheInstance->flush();
-        if (isset($GLOBALS['BE_USER'])) {
+        if (isset($GLOBALS['BE_USER']) && $GLOBALS['BE_USER']->user) {
             $GLOBALS['BE_USER']->writelog(
                 3,
                 1,

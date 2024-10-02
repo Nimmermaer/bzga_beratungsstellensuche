@@ -60,18 +60,11 @@ tx_bzgaberatungsstellensuche_map {
     no_cache = 0
     debug = 0
   }
-  10 = USER
+  10 = EXTBASEPLUGIN
   10 {
-    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
     extensionName = BzgaBeratungsstellensuche
-    pluginName = Pi1
+    pluginName = MapJavaScript
     vendorName = Bzga
-    controller = Entry
-    switchableControllerActions {
-      Entry {
-        1 = mapJavaScript
-      }
-    }
     view < plugin.tx_bzgaberatungsstellensuche.view
     persistence < plugin.tx_bzgaberatungsstellensuche.persistence
     settings < plugin.tx_bzgaberatungsstellensuche.settings
