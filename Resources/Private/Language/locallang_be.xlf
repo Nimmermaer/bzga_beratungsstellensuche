@@ -5,7 +5,13 @@
         <header/>
         <body>
             <trans-unit id="pi1_title" xml:space="preserve">
-				<source>Beratungsstellensuche</source>
+				<source>Beratungsstellensuche: Liste</source>
+			</trans-unit>
+            <trans-unit id="form_title" xml:space="preserve">
+				<source>Beratungsstellensuche: Formular</source>
+			</trans-unit>
+            <trans-unit id="detail_title" xml:space="preserve">
+				<source>Beratungsstellensuche: Detail</source>
 			</trans-unit>
             <trans-unit id="pi1_plus_wiz_description" xml:space="preserve">
                 <source>Liste von Beratungsstellen</source>

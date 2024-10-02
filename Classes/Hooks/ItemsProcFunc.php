@@ -24,7 +24,7 @@ class ItemsProcFunc
     {
         $templateLayoutsUtility = GeneralUtility::makeInstance(TemplateLayout::class);
         /** @var TemplateLayout $templateLayoutsUtility */
-        $templateLayouts = $templateLayoutsUtility->getAvailableTemplateLayouts($config['row']['pid']);
+        $templateLayouts = $templateLayoutsUtility->getAvailableTemplateLayouts($config['effectivePid']);
         foreach ($templateLayouts as $layout) {
             $additionalLayout  = [
                 htmlspecialchars($GLOBALS['LANG']->sL($layout[0])),

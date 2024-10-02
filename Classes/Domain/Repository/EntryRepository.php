@@ -14,8 +14,8 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Repository;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Dto\Demand;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Entry;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\GeopositionInterface;
-use Bzga\BzgaBeratungsstellensuche\Events;
-use Bzga\BzgaBeratungsstellensuche\Events\Repository\RemoveEntryEvent;
+use Bzga\BzgaBeratungsstellensuche\Events\Entry\Repository\RemoveEntryEvent;
+use Bzga\BzgaBeratungsstellensuche\Events\Entry\Repository\TruncateAllEvent;
 use Bzga\BzgaBeratungsstellensuche\Service\Geolocation\Decorator\GeolocationServiceCacheDecorator;
 use Bzga\BzgaBeratungsstellensuche\Service\Geolocation\GeolocationService;
 use RuntimeException;
@@ -140,7 +140,7 @@ class EntryRepository extends AbstractBaseRepository
         foreach ($entries as $entry) {
             $this->deleteByUid($entry['uid']);
         }
-        $event = new Events\Repository\TruncateAllEvent($this);
+        $event = new TruncateAllEvent($this);
         $this->eventDispatcher->dispatch($event);
 
     }

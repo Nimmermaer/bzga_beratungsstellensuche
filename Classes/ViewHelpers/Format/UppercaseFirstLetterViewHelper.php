@@ -33,7 +33,7 @@ class UppercaseFirstLetterViewHelper extends AbstractViewHelper
         if (! is_string($subject)) {
             throw new InvalidArgumentException('This is not a string');
         }
-        $parts = explode('_', $subject);
+        $parts = array_filter(explode('_', $subject));
         $subjectParts = [];
         foreach ($parts as $part) {
             $subjectParts[] = ucfirst($part[0]) . substr($part, 1);

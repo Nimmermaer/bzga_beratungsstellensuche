@@ -23,7 +23,6 @@ use Bzga\BzgaBeratungsstellensuche\Events;
 use Bzga\BzgaBeratungsstellensuche\Service\SessionService;
 use Bzga\BzgaBeratungsstellensuche\Utility\Utility;
 use GeorgRinger\NumberedPagination\NumberedPagination;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use SJBR\StaticInfoTables\Domain\Model\Country;
 use SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository;
@@ -106,7 +105,7 @@ class EntryController extends ActionController
             $propertyMappingConfiguration->forProperty('categories')->allowAllProperties();
             $propertyMappingConfiguration->allowCreationForSubProperty('categories');
             $propertyMappingConfiguration->allowModificationForSubProperty('categories');
-            $event = new Events\InitializeActionEvent(['propertyMappingConfiguration' => $propertyMappingConfiguration]);
+            $event = new Events\Entry\InitializeActionEvent(['propertyMappingConfiguration' => $propertyMappingConfiguration]);
             $this->eventDispatcher->dispatch($event);
         }
     }
@@ -127,7 +126,7 @@ class EntryController extends ActionController
         $categories = $this->categoryRepository->findAll();
         $random = random_int(0, 1000);
         $assignedViewValues = compact('demand', 'kilometers', 'categories', 'countryZonesGermany', 'random');
-        $event = new Events\FormActionEvent($this->request, $demand, $assignedViewValues);
+        $event = new Events\Entry\FormActionEvent($this->request, $demand, $assignedViewValues);
         $event = $this->eventDispatcher->dispatch($event);
         $this->view->assignMultiple($event->getAssignedViewValues());
         return $this->htmlResponse();
@@ -170,7 +169,7 @@ class EntryController extends ActionController
             'pagination' => $pagination,
         ]);
         $assignedViewValues = compact('entries', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
-        $event = new Events\ListActionEvent($this->request, $demand, $assignedViewValues);
+        $event = new Events\Entry\ListActionEvent($this->request, $demand, $assignedViewValues);
         $this->view->assignMultiple($event->getAssignedViewValues());
         return $this->htmlResponse();
     }
@@ -189,7 +188,7 @@ class EntryController extends ActionController
 
         $mapId = sprintf('map_%s', StringUtility::getUniqueId());
         $assignedViewValues = compact('entry', 'demand', 'mapId');
-        $event = new Events\ShowActionEvent($this->request, $demand, $assignedViewValues);
+        $event = new Events\Entry\ShowActionEvent($this->request, $demand, $assignedViewValues);
         $this->view->assignMultiple($event->getAssignedViewValues());
     }
 

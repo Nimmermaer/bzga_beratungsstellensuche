@@ -15,30 +15,6 @@
             </sheetTitle>
             <type>array</type>
             <el>
-                <!-- View -->
-                    <switchableControllerActions>
-                        <label>LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode
-                    </label>
-                    <onChange>reload</onChange>
-                    <config>
-                        <type>select</type>
-                        <renderType>selectSingle</renderType>
-                        <items>
-                            <numIndex index="1">
-                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_list</numIndex>
-                                <numIndex index="1">Entry-&gt;list;Entry-&gt;show;Entry-&gt;autocomplete</numIndex>
-                            </numIndex>
-                            <numIndex index="100">
-                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_show</numIndex>
-                                <numIndex index="1">Entry-&gt;show</numIndex>
-                            </numIndex>
-                            <numIndex index="200">
-                                <numIndex index="0">LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:flexforms_general.mode.entry_form</numIndex>
-                                <numIndex index="1">Entry-&gt;form;Entry-&gt;autocomplete</numIndex>
-                            </numIndex>
-                        </items>
-                    </config>
-                </switchableControllerActions>
                 <!-- startingpoint -->
                     <settings.startingpoint>
                         <label>LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.startingpoint</label>

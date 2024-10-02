@@ -33,20 +33,32 @@ if (! defined('TYPO3')) {
 call_user_func(function ($packageKey) {
     ExtensionManagementUtility::registerExtensionKey($packageKey, 100);
 
-    // Plugin configuration
     ExtensionUtility::configurePlugin(
         'BzgaBeratungsstellensuche',
         'Pi1',
-        [EntryController::class => 'list,show,form,autocomplete,mapJavaScript'],
-        [EntryController::class => 'list,form,autocomplete,mapJavaScript']
+        [EntryController::class => 'list,show,autocomplete'],
+        [EntryController::class => 'list,autocomplete']
     );
 
-    $versionInformation = GeneralUtility::makeInstance(Typo3Version::class);
-    // Only include page.tsconfig if TYPO3 version is below 12 so that it is not imported twice.
-    // Todo:: remove when dropping TYPO3 v11 support
-    if ($versionInformation->getMajorVersion() < 12) {
-        GeneralExtensionManagementUtility::addPageTSConfig('@import \'EXT:bzga_beratungsstellensuche/Configuration/page.tsconfig\'');
-    }
+    ExtensionUtility::configurePlugin(
+        'BzgaBeratungsstellensuche',
+        'Form',
+        [EntryController::class => 'form,autocomplete'],
+        [EntryController::class => 'form,autocomplete']
+    );
+
+    ExtensionUtility::configurePlugin(
+        'BzgaBeratungsstellensuche',
+        'Detail',
+        [EntryController::class => 'show'],
+        []
+    );
+    ExtensionUtility::configurePlugin(
+        'BzgaBeratungsstellensuche',
+        'MapJavaScript',
+        [EntryController::class => 'mapJavaScript'],
+        [EntryController::class => 'mapJavaScript']
+    );
 
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['formDataGroup']['tcaDatabaseRecord'][BeratungsstellensucheFlexFormManipulation::class] = [
         'depends' => [

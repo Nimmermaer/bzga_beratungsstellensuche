@@ -1,6 +1,6 @@
 <?php
 
-namespace Bzga\BzgaBeratungsstellensuche\Events;
+namespace Bzga\BzgaBeratungsstellensuche\Events\Entry;
 
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Dto\Demand;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bzga\BzgaBeratungsstellensuche\Import;
+namespace Bzga\BzgaBeratungsstellensuche\Events\Import;
 
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Serializer;
 

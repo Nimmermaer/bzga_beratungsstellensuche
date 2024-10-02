@@ -1,6 +1,6 @@
 <?php
 
-namespace Bzga\BzgaBeratungsstellensuche\Events;
+namespace Bzga\BzgaBeratungsstellensuche\Events\Entry;
 
 final class InitializeActionEvent
 {

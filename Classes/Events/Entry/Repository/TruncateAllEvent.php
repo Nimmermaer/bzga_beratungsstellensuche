@@ -1,6 +1,6 @@
 <?php
 
-namespace Bzga\BzgaBeratungsstellensuche\Events\Repository;
+namespace Bzga\BzgaBeratungsstellensuche\Events\Entry\Repository;
 
 use Bzga\BzgaBeratungsstellensuche\Domain\Repository\AbstractBaseRepository;
 
