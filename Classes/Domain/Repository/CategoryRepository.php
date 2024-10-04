@@ -11,9 +11,12 @@ declare(strict_types=1);
 
 namespace Bzga\BzgaBeratungsstellensuche\Domain\Repository;
 
+use Bzga\BzgaBeratungsstellensuche\Domain\Model\Category;
+
 /**
  * @author Sebastian Schreiber
  */
 class CategoryRepository extends AbstractBaseRepository
 {
+    protected $objectType = Category::class;
 }

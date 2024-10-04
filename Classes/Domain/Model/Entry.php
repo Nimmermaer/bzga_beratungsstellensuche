@@ -13,6 +13,7 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Model;
 
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\ValueObject\ImageLink;
 use SJBR\StaticInfoTables\Domain\Model\CountryZone;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Annotation\ORM\Cascade;
 use TYPO3\CMS\Extbase\Annotation\ORM\Lazy;
 
@@ -103,15 +104,15 @@ class Entry extends AbstractEntity implements GeopositionInterface, MapWindowInt
 
     /**
      * @var FileReference
-     * @Cascade("remove")
      */
+    #[Cascade(['value' => 'remove'])]
     protected $image;
 
     /**
      * @var ObjectStorage<Category>
-     * @Lazy
-     * @Cascade("remove")
      */
+    #[Lazy]
+    #[Cascade(['value' => 'remove'])]
     protected $categories;
 
     /**
@@ -349,5 +350,10 @@ class Entry extends AbstractEntity implements GeopositionInterface, MapWindowInt
             $this->getZip(),
             $this->getCity()
         );
+    }
+
+    public function getMapId(): string
+    {
+       return sprintf('map_%s', StringUtility::getUniqueId());
     }
 }

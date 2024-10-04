@@ -55,35 +55,16 @@ class EntryController extends ActionController
     protected CategoryRepository $categoryRepository;
 
     protected CountryZoneRepository $countryZoneRepository;
+
     private MapBuilderInterface $mapBuilder;
 
-    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
+    public function __construct(\Bzga\BzgaBeratungsstellensuche\Domain\Repository\CategoryRepository $categoryRepository, \SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository $countryZoneRepository, \Bzga\BzgaBeratungsstellensuche\Domain\Repository\EntryRepository $entryRepository, \Bzga\BzgaBeratungsstellensuche\Domain\Repository\KilometerRepository $kilometerRepository, \Bzga\BzgaBeratungsstellensuche\Service\SessionService $sessionService, \Bzga\BzgaBeratungsstellensuche\Domain\Map\MapBuilderInterface $mapBuilder)
     {
         $this->categoryRepository = $categoryRepository;
-    }
-
-    public function injectCountryZoneRepository(CountryZoneRepository $countryZoneRepository): void
-    {
         $this->countryZoneRepository = $countryZoneRepository;
-    }
-
-    public function injectEntryRepository(EntryRepository $entryRepository): void
-    {
         $this->entryRepository = $entryRepository;
-    }
-
-    public function injectKilometerRepository(KilometerRepository $kilometerRepository): void
-    {
         $this->kilometerRepository = $kilometerRepository;
-    }
-
-    public function injectSessionService(SessionService $sessionService): void
-    {
         $this->sessionService = $sessionService;
-    }
-
-    public function injectMapBuilder(MapBuilderInterface $mapBuilder): void
-    {
         $this->mapBuilder = $mapBuilder;
     }
 
@@ -168,8 +149,8 @@ class EntryController extends ActionController
             'paginator' => $paginator,
             'pagination' => $pagination,
         ]);
-        $mapId = sprintf('map_%s', StringUtility::getUniqueId());
-        $assignedViewValues = compact('entries', 'mapId', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
+
+        $assignedViewValues = compact('entries', 'demand', 'kilometers', 'categories', 'countryZonesGermany');
         $event = new Events\Entry\ListActionEvent($this->request, $demand, $assignedViewValues);
         $this->view->assignMultiple($event->getAssignedViewValues());
         return $this->htmlResponse();
@@ -180,7 +161,7 @@ class EntryController extends ActionController
         $this->addDemandRequestArgumentFromSession();
     }
 
-    public function showAction(Entry $entry = null, Demand $demand = null): void
+    public function showAction(Entry $entry = null, Demand $demand = null): ResponseInterface
     {
         if (!$entry instanceof Entry) {
             // @TODO: Add possibility to hook into here.
@@ -190,6 +171,7 @@ class EntryController extends ActionController
         $assignedViewValues = compact('entry', 'demand', 'mapId');
         $event = new Events\Entry\ShowActionEvent($this->request, $demand, $assignedViewValues);
         $this->view->assignMultiple($event->getAssignedViewValues());
+        return $this->htmlResponse();
     }
 
     public function mapJavaScriptAction(string $mapId, ?Entry $mainEntry = null, ?Demand $demand = null): ResponseInterface
@@ -202,7 +184,7 @@ class EntryController extends ActionController
         // Set map options configurable via TypoScript, option:value => maxZoom:17
         $mapOptions = isset($this->settings['map']['options']) ? GeneralUtility::trimExplode(',', $this->settings['map']['options']) : [];
 
-        if (is_array($mapOptions) && ! empty($mapOptions)) {
+        if (is_array($mapOptions) && !empty($mapOptions)) {
             foreach ($mapOptions as $mapOption) {
                 [$mapOptionKey, $mapOptionValue] = GeneralUtility::trimExplode(':', $mapOption, true, 2);
                 $map->setOption($mapOptionKey, $mapOptionValue);
@@ -237,7 +219,7 @@ class EntryController extends ActionController
                 $map->setCenter($coordinate);
             }
 
-            if (! empty($iconFile)) {
+            if (!empty($iconFile)) {
                 $marker->addIconFromPath(Utility::stripPathSite(GeneralUtility::getFileAbsFileName($iconFile)));
             }
 
@@ -331,7 +313,7 @@ class EntryController extends ActionController
 
         $additionalViewValues = $this->signalSlotDispatcher->dispatch(static::class, $signalName, $signalArguments);
 
-        if(
+        if (
             is_array($additionalViewValues) &&
             array_key_exists('extendedVariables', $additionalViewValues) &&
             is_array($additionalViewValues['extendedVariables'])
