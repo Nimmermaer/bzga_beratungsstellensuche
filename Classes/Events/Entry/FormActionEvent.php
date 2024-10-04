@@ -42,6 +42,6 @@ final class FormActionEvent
 
     public function setAssignedViewValues(array $assignedViewValues): void
     {
-        $this->assignedViewValues = $assignedViewValues;
+        $this->assignedViewValues =  array_merge($this->assignedViewValues, $assignedViewValues);
     }
 }
