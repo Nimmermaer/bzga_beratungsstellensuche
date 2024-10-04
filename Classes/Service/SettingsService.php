@@ -30,7 +30,7 @@ class SettingsService implements SingletonInterface, SettingsServiceInterface
      */
     protected $configurationManager;
 
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
+    public function __construct(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager)
     {
         $this->configurationManager = $configurationManager;
     }

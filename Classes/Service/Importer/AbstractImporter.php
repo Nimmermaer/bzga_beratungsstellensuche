@@ -33,10 +33,11 @@ abstract class AbstractImporter implements ImporterInterface
 
     protected CategoryManager $categoryManager;
 
-    public function __construct(
-        protected readonly EventDispatcherInterface $eventDispatcher,
-    )
+    public function __construct(protected readonly EventDispatcherInterface $eventDispatcher, \Bzga\BzgaBeratungsstellensuche\Domain\Manager\CategoryManager $categoryManager, \Bzga\BzgaBeratungsstellensuche\Domain\Manager\EntryManager $entryManager, \Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Serializer $serializer)
     {
+        $this->categoryManager = $categoryManager;
+        $this->entryManager = $entryManager;
+        $this->serializer = $serializer;
     }
 
     public function importFromFile(string $file, int $pid = 0): void
@@ -97,20 +98,5 @@ abstract class AbstractImporter implements ImporterInterface
         }
 
         $this->import($content, $pid);
-    }
-
-    public function injectCategoryManager(CategoryManager $categoryManager): void
-    {
-        $this->categoryManager = $categoryManager;
-    }
-
-    public function injectEntryManager(EntryManager $entryManager): void
-    {
-        $this->entryManager = $entryManager;
-    }
-
-    public function injectSerializer(Serializer $serializer): void
-    {
-        $this->serializer = $serializer;
     }
 }

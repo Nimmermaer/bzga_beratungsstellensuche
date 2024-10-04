@@ -19,21 +19,18 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Repository\CategoryRepository;
  */
 class CategoryManager extends AbstractManager
 {
-    /**
-     * @var CategoryRepository
-     */
-    protected $repository;
+
+    public function __construct(
+        protected \Bzga\BzgaBeratungsstellensuche\Domain\Repository\CategoryRepository $categoryRepository,
+    )
+    {
+    }
 
     /**
      * @return CategoryRepository
      */
     public function getRepository(): AbstractBaseRepository
     {
-        return $this->repository;
-    }
-
-    public function injectRepository(CategoryRepository $repository): void
-    {
-        $this->repository = $repository;
+        return $this->categoryRepository;
     }
 }

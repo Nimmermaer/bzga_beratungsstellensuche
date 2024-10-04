@@ -16,8 +16,9 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Model\AbstractEntity;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Category;
 use Bzga\BzgaBeratungsstellensuche\Domain\Model\Entry;
 use Bzga\BzgaBeratungsstellensuche\Events\Import\PostImportEvent;
-use Bzga\BzgaBeratungsstellensuche\Import\PreImportEvent;
+use Bzga\BzgaBeratungsstellensuche\Events\Import\PreImportEvent;
 use SimpleXMLIterator;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Traversable;
 
 /**
@@ -42,7 +43,7 @@ class XmlImporter extends AbstractImporter
         $this->pid = $pid;
 
         $this->sxe = new \SimpleXMLIterator($content);
-        $event = new PreImportEvent($this->sxe, $this->pid, $this->serializer);
+        $event = new PreImportEvent($this, $this->sxe, $this->pid, $this->serializer);
         $this->eventDispatcher->dispatch($event);
         // Import beratungsarten
         $this->convertRelations($this->sxe->beratungsarten->beratungsart, $this->categoryManager, Category::class, $pid);
@@ -91,12 +92,13 @@ class XmlImporter extends AbstractImporter
     {
         $externalId = (integer)$relationData->index;
         $objectToPopulate = $manager->getRepository()->findOneByExternalId($externalId);
+
         /** @var AbstractEntity $relationObject */
         $relationObject = $this->serializer->deserialize(
             $relationData->asXml(),
             $relationClassName,
             self::FORMAT,
-            ['object_to_populate' => $objectToPopulate]
+            [AbstractObjectNormalizer::OBJECT_TO_POPULATE => $objectToPopulate]
         );
         $relationObject->setPid($pid);
         $manager->create($relationObject);

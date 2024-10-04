@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 use Bzga\BzgaBeratungsstellensuche\Command\ImportCommand;
 use Bzga\BzgaBeratungsstellensuche\Command\TruncateCommand;
+use Bzga\BzgaBeratungsstellensuche\Domain\Manager\AbstractManager;
 use Bzga\BzgaBeratungsstellensuche\Domain\Map\Leaflet\MapBuilder;
 use Bzga\BzgaBeratungsstellensuche\Domain\Map\MapBuilderInterface;
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Normalizer\EntryNormalizer;
@@ -24,6 +25,7 @@ use Bzga\BzgaBeratungsstellensuche\Service\Importer\XmlImporter;
 use Geocoder\Provider\Provider;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapFactory;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
@@ -54,6 +56,10 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
     $services->set(GeolocationServiceCacheDecorator::class)->arg('$cache', service('beratungsstellensuche.cache.geolcation'))->public();
     $services->set(GetSetMethodNormalizer::class)->public();
     $services->set(EntryNormalizer::class)->public();
+    $services->set(\Bzga\BzgaBeratungsstellensuche\Persistence\Mapper\DataMap::class)
+        ->arg('$dataMapFactory', service(DataMapFactory::class))
+        ->public();
+
 
     // Add commands
     $services->set('console.command.beratungsstellensuche_import', ImportCommand::class)
@@ -61,6 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
             'command' => 'bzga:beratungsstellensuche:import',
             'schedulable' => true,
         ]);
+
     $services->set('console.command.beratungsstellensuche_truncate', TruncateCommand::class)
         ->tag('console.command', [
             'command' => 'bzga:beratungsstellensuche:truncate',

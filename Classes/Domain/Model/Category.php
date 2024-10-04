@@ -16,4 +16,5 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Model;
  */
 class Category extends AbstractEntity
 {
+
 }

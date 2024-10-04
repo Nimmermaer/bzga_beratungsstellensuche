@@ -25,7 +25,7 @@ class DistanceViewHelper extends AbstractViewHelper
      */
     protected $geolocationService;
 
-    public function injectGeolocationService(GeolocationServiceCacheDecorator $geolocationService): void
+    public function __construct(\Bzga\BzgaBeratungsstellensuche\Service\Geolocation\Decorator\GeolocationServiceCacheDecorator $geolocationService)
     {
         $this->geolocationService = $geolocationService;
     }

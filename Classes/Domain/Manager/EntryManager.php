@@ -19,18 +19,14 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Repository\EntryRepository;
  */
 class EntryManager extends AbstractManager
 {
-    /**
-     * @var EntryRepository
-     */
-    protected $repository;
+
+    public function __construct(
+        protected \Bzga\BzgaBeratungsstellensuche\Domain\Repository\EntryRepository $entryRepository)
+    {
+    }
 
     public function getRepository(): AbstractBaseRepository
     {
-        return $this->repository;
-    }
-
-    public function injectRepository(EntryRepository $repository): void
-    {
-        $this->repository = $repository;
+        return $this->entryRepository;
     }
 }

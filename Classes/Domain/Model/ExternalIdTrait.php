@@ -16,23 +16,18 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Model;
  */
 trait ExternalIdTrait
 {
-    /**
-     * @var int
-     */
-    protected $externalId;
+
+    protected string $externalId;
 
     /**
      * @return mixed
      */
-    public function getExternalId()
+    public function getExternalId():string
     {
         return $this->externalId;
     }
 
-    /**
-     * @param mixed $externalId
-     */
-    public function setExternalId($externalId): void
+    public function setExternalId(string $externalId): void
     {
         $this->externalId = $externalId;
     }

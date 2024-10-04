@@ -16,10 +16,7 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Model;
  */
 trait DummyTrait
 {
-    /**
-     * @var bool
-     */
-    protected $isDummyRecord = false;
+    protected bool $isDummyRecord = false;
 
     /**
      * @return bool

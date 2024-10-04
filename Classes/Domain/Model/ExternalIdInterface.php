@@ -19,10 +19,10 @@ interface ExternalIdInterface
     /**
      * @return mixed
      */
-    public function getExternalId();
+    public function getExternalId():string;
 
     /**
      * @param mixed $externalId
      */
-    public function setExternalId($externalId);
+    public function setExternalId(string $externalId);
 }

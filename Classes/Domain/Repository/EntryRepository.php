@@ -31,6 +31,7 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  */
 class EntryRepository extends AbstractBaseRepository
 {
+    protected $objectType = Entry::class;
     /**
      * @var GeolocationServiceCacheDecorator
      */
@@ -40,14 +41,9 @@ class EntryRepository extends AbstractBaseRepository
      * @var Typo3DbQueryParser
      */
     protected $queryParser;
-
-    public function injectGeolocationService(GeolocationServiceCacheDecorator $geolocationService): void
+    public function __construct(\Bzga\BzgaBeratungsstellensuche\Service\Geolocation\Decorator\GeolocationServiceCacheDecorator $geolocationService, \TYPO3\CMS\Extbase\Persistence\Generic\Storage\Typo3DbQueryParser $queryParser)
     {
         $this->geolocationService = $geolocationService;
-    }
-
-    public function injectQueryParser(Typo3DbQueryParser $queryParser): void
-    {
         $this->queryParser = $queryParser;
     }
 
@@ -136,7 +132,11 @@ class EntryRepository extends AbstractBaseRepository
     public function truncateAll(): void
     {
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(self::ENTRY_TABLE);
-        $entries = $queryBuilder->select('uid')->from(self::ENTRY_TABLE)->execute()->fetchAll();
+        $entries = $queryBuilder
+            ->select('uid')
+            ->from(self::ENTRY_TABLE)
+            ->executeQuery()
+            ->fetchAllAssociative();
         foreach ($entries as $entry) {
             $this->deleteByUid($entry['uid']);
         }

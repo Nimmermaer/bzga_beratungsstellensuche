@@ -15,6 +15,7 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Model\ExternalIdInterface;
 use Bzga\BzgaBeratungsstellensuche\Domain\Repository\AbstractBaseRepository;
 use Bzga\BzgaBeratungsstellensuche\Persistence\Mapper\DataMap;
 use Bzga\BzgaBeratungsstellensuche\Property\PropertyMapper;
+use Bzga\BzgaBeratungsstellensuche\Property\TypeConverter\ImageLinkConverter;
 use function count;
 use Countable;
 use IteratorAggregate;
@@ -28,23 +29,18 @@ use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
  */
 abstract class AbstractManager implements ManagerInterface, Countable, IteratorAggregate
 {
-    /**
-     * @var DataHandler
-     */
-    protected $dataHandler;
+    protected ?DataHandler $dataHandler = null;
 
-    /**
-     * @var array
-     */
-    protected $dataMap = [];
+    protected array $dataMap = [];
 
-    private \SplObjectStorage $entries;
+    private ?\SplObjectStorage $entries = null;
 
     private array $externalUids = [];
 
-    private DataMap $dataMapFactory;
+    private ?DataMap $dataMapFactory = null;
 
-    private PropertyMapper $propertyMapper;
+    private ?PropertyMapper $propertyMapper = null;
+
 
     public function __construct(
         DataHandler $dataHandler,
@@ -61,12 +57,17 @@ abstract class AbstractManager implements ManagerInterface, Countable, IteratorA
         $this->entries = new \SplObjectStorage();
     }
 
-    public function create(AbstractEntity $entity)
+    public function create(AbstractEntity $entity): void
     {
+        if(!$this->dataMapFactory) {
+            $this->dataMapFactory = GeneralUtility::makeInstance(DataMap::class);
+        }
         $tableName = $this->dataMapFactory->getTableNameByClassName(get_class($entity));
 
         $tableUid = $this->getUid($entity);
-
+        if(!$this->entries) {
+            $this->entries = new \SplObjectStorage();
+        }
         // Add external uid to stack of updated, or inserted entries, we need this for the clean up
         $this->entries->attach($entity);
 
@@ -174,5 +175,14 @@ abstract class AbstractManager implements ManagerInterface, Countable, IteratorA
         }
 
         return $entity->getUid();
+    }
+
+    public function injectPropertyMapper(PropertyMapper $propertyMapper): void
+    {
+        $this->propertyMapper = $propertyMapper;
+    }
+    public function injectDataHandler(DataHandler $dataHandler): void
+    {
+        $this->dataHandler = $dataHandler;
     }
 }

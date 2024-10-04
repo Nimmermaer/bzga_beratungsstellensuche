@@ -50,7 +50,7 @@ abstract class AbstractBaseRepository extends Repository
      */
     public const SYS_FILE_REFERENCE = 'sys_file_reference';
 
-    public function injectEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    public function __construct(\Psr\EventDispatcher\EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -62,9 +62,11 @@ abstract class AbstractBaseRepository extends Repository
         return $queryBuilder
             ->select('uid')
             ->from(self::ENTRY_TABLE)
-            ->where($queryBuilder->expr()->notIn('external_id', $queryBuilder->createNamedParameter($entries, Connection::PARAM_INT_ARRAY)))
-            ->execute()
-            ->fetchAll();
+            ->where(
+                $queryBuilder->expr()->notIn('external_id', $queryBuilder->createNamedParameter($entries, Connection::PARAM_INT_ARRAY))
+            )
+            ->executeQuery()
+            ->fetchAllAssociative();
     }
 
     public function countByExternalIdAndHash($externalId, string $hash): int

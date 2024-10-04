@@ -26,7 +26,7 @@ class PropertyMapper implements TypeConverterInterface
 
     public function __construct(?array $typeConverters = null)
     {
-        $this->typeConverters = $typeConverters??$this->initializeTypeConverters();
+        $this->typeConverters = $typeConverters ?? $this->initializeTypeConverters();
     }
 
     /**

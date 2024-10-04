@@ -75,10 +75,13 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
 
     private DataHandler $dataHandler;
 
-    public function __construct(?DataHandler $dataHandler = null)
+    public function __construct(?DataHandler $dataHandler = null, ResourceFactory $resourceFactory = null)
     {
         if ($dataHandler === null) {
             $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        }
+        if ($resourceFactory === null) {
+            $this->resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         }
         $this->dataHandler = $dataHandler;
         $this->dataHandler->bypassAccessCheckForRecords = true;
@@ -150,12 +153,12 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
         if (is_array($imageInfo)) {
             $extension = $this->getExtensionFromMimeType($imageInfo['mime']);
             if ($extension) {
-                $pathToUploadFile = Environment::getPublicPath() . '/' . $this->tempFolder . GeneralUtility::stdAuthCode($entity->getExternalId()) . '.' . $extension;
+                $pathToUploadFile = Environment::getPublicPath() . '/' . $this->tempFolder . GeneralUtility::hmac($entity->getExternalId()) . '.' . $extension;
                 $error = GeneralUtility::writeFileToTypo3tempDir($pathToUploadFile, $imageContent);
-                // due to Bug https://forge.typo3.org/issues/90063#change-431917 error always conatains something.
-                // therefore just testing if file got uploaded
-                $hasError = !@is_file($pathToUploadFile);
-                if ($hasError) {
+//                // due to Bug https://forge.typo3.org/issues/90063#change-431917 error always conatains something.
+//                // therefore just testing if file got uploaded
+//                $hasError = !@is_file($pathToUploadFile);
+                if ($error) {
                     throw new TypeConverterException($error, 1_399_312_443);
                 }
             } else {
@@ -194,6 +197,7 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
 
     private function deleteOldFileReferences(array $fileReferenceData): void
     {
+
         if (isset($fileReferenceData['uid_local'])) {
             unset($fileReferenceData['uid_local']);
         }
@@ -204,6 +208,7 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
         foreach ($fileReferenceData as $key => $value) {
             $where[$key] = $value;
         }
+
         $databaseConnection->delete('sys_file_reference', $where);
     }
 
@@ -222,7 +227,9 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('sys_file');
             $row = $queryBuilder->select('*')
                 ->from('sys_file')
-                ->where($queryBuilder->expr()->eq('external_identifier', $queryBuilder->createNamedParameter($source->getIdentifier())))->execute()->fetch();
+                ->where($queryBuilder->expr()->eq('external_identifier', $queryBuilder->createNamedParameter($source->getIdentifier())))
+                ->executeQuery()
+                ->fetchAssociative();
             if ($row) {
                 return $row['uid'];
             }

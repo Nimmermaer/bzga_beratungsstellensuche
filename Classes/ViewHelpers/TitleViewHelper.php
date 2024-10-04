@@ -28,8 +28,8 @@ class TitleViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ) {
-        $content = trim($renderChildrenClosure());
+    ): void {
+        $content = trim($renderChildrenClosure() ?? '');
         if (!empty($content)) {
             GeneralUtility::makeInstance(PageTitleProvider::class)->setTitle($content);
         }

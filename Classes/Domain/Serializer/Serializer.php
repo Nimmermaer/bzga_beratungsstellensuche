@@ -14,6 +14,7 @@ namespace Bzga\BzgaBeratungsstellensuche\Domain\Serializer;
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Normalizer\EntryNormalizer;
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Normalizer\GetSetMethodNormalizer;
 use Bzga\BzgaBeratungsstellensuche\Events;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Serializer as BaseSerializer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -24,13 +25,12 @@ use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
  */
 class Serializer extends BaseSerializer
 {
-    /**
-     * @var Dispatcher
-     */
-  //  protected $signalSlotDispatcher;
 
-    public function __construct(array $normalizers = [], array $encoders = [], $signalSlotDispatcher = null)
+    protected EventDispatcher $eventDispatcher;
+
+    public function __construct(array $normalizers = [], array $encoders = [])
     {
+
         if (empty($normalizers)) {
             $normalizers = [
                 GeneralUtility::makeInstance(EntryNormalizer::class),
@@ -45,34 +45,10 @@ class Serializer extends BaseSerializer
             ];
         }
 
-      //  $this->signalSlotDispatcher = $signalSlotDispatcher ?? GeneralUtility::makeInstance(Dispatcher::class);
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
+        $event = new Events\Serializer\NormalizerEvent($normalizers);
+        $event = $this->eventDispatcher->dispatch($event);
 
-    //   $normalizers = $this->emitAdditionalNormalizersSignal($normalizers);
-
-        parent::__construct($normalizers, $encoders);
-    }
-
-    /**
-     * @param array $normalizers
-     */
-    private function emitAdditionalNormalizersSignal(array $normalizers): array
-    {
-        $signalArguments = [];
-        $signalArguments[] = [];
-
-        $additionalNormalizers = $this->signalSlotDispatcher->dispatch(
-            static::class,
-            Events::ADDITIONAL_NORMALIZERS_SIGNAL,
-            $signalArguments
-        );
-
-        if(
-            is_array($additionalNormalizers) &&
-            array_key_exists('extendedNormalizers', $additionalNormalizers) &&
-            is_array($additionalNormalizers['extendedNormalizers'])
-        ) {
-            return array_merge($normalizers, $additionalNormalizers['extendedNormalizers']);
-        }
-        return $normalizers;
+        parent::__construct($event->getNormalizer(), $encoders);
     }
 }

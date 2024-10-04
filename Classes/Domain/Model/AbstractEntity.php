@@ -21,10 +21,7 @@ abstract class AbstractEntity extends CoreAbstractEntity implements DummyInterfa
     use DummyTrait;
     use ExternalIdTrait;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     public function __construct(string $title = '')
     {

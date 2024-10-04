@@ -26,19 +26,14 @@ use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
  */
 class EntryNormalizer extends GetSetMethodNormalizer
 {
-    /**
-     * @var CountryZoneRepository
-     */
-    protected $countryZoneRepository;
 
-    /**
-     * @var CategoryRepository
-     */
-    protected $categoryRepository;
-
-    public function __construct(ClassMetadataFactoryInterface $classMetadataFactory = null, $signalSlotDispatcher = null)
+    public function __construct(
+        protected CategoryRepository             $categoryRepository,
+        protected CountryZoneRepository          $countryZoneRepository,
+        protected ?ClassMetadataFactoryInterface $classMetadataFactory = null
+    )
     {
-        parent::__construct($classMetadataFactory, new EntryNameConverter([], true, $signalSlotDispatcher));
+        parent::__construct($classMetadataFactory, new EntryNameConverter([], true));
     }
 
     /**
@@ -46,7 +41,7 @@ class EntryNormalizer extends GetSetMethodNormalizer
      */
     protected function prepareForDenormalization($data): array
     {
-        $stateCallback = fn ($externalId) => $this->countryZoneRepository->findOneByExternalId($externalId);
+        $stateCallback = fn ($externalId) => $this->countryZoneRepository->findOneBy(['externalId' => $externalId]);
 
         $categoriesCallback = fn () => self::convertToObjectStorage($this->categoryRepository, func_get_args());
 
@@ -85,16 +80,6 @@ class EntryNormalizer extends GetSetMethodNormalizer
         }
 
         return $objectStorage;
-    }
-
-    public function injectCategoryRepository(CategoryRepository $categoryRepository): void
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
-    public function injectCountryZoneRepository(CountryZoneRepository $countryZoneRepository): void
-    {
-        $this->countryZoneRepository = $countryZoneRepository;
     }
 
 
