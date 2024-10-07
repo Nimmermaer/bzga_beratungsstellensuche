@@ -29,7 +29,7 @@ abstract class AbstractNameConverterTest extends UnitTestCase
      * @test
      * @dataProvider dataProvider
      */
-    public function denormalize($input, $expected)
+    public function denormalize($input, $expected): void
     {
         $expected = GeneralUtility::underscoredToLowerCamelCase($expected);
         $propertyName = $this->subject->denormalize($input);

@@ -29,7 +29,7 @@ class EntryTest extends UnitTestCase
     /**
      * @test
      */
-    public function getAddress()
+    public function getAddress(): void
     {
         $address = 'Zip City, Street';
         $this->subject->setCity('City');
@@ -41,7 +41,7 @@ class EntryTest extends UnitTestCase
     /**
      * @test
      */
-    public function getInfoWindowWithoutLink()
+    public function getInfoWindowWithoutLink(): void
     {
         $this->subject->setTitle('Title');
         $this->subject->setCity('City');
@@ -54,7 +54,7 @@ class EntryTest extends UnitTestCase
     /**
      * @test
      */
-    public function getInfoWindowWithLink()
+    public function getInfoWindowWithLink(): void
     {
         $this->subject->setTitle('Title');
         $this->subject->setCity('City');
@@ -67,7 +67,7 @@ class EntryTest extends UnitTestCase
     /**
      * @test
      */
-    public function stringCastingEntityReturnsTitle()
+    public function stringCastingEntityReturnsTitle(): void
     {
         $this->subject->setTitle('Title');
         self::assertEquals('Title', (string)$this->subject);

@@ -35,7 +35,7 @@ class UppercaseFirstLetterViewHelperTest extends ViewHelperBaseTestcase
      * @test
      * @dataProvider validValuesProvider
      */
-    public function renderWithRenderChildren($input, $expected)
+    public function renderWithRenderChildren($input, $expected): void
     {
         $this->setArgumentsUnderTest($this->subject);
         $this->subject->expects(self::once())->method('renderChildren')->willReturn($input);
@@ -45,7 +45,7 @@ class UppercaseFirstLetterViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function renderThrowsInvalidArgumentException()
+    public function renderThrowsInvalidArgumentException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->setArgumentsUnderTest($this->subject, ['subject' => new \stdClass()]);

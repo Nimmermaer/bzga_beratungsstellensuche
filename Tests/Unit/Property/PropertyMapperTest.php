@@ -37,7 +37,7 @@ class PropertyMapperTest extends UnitTestCase
     /**
      * @test
      */
-    public function supportsReturnsTypeConverter()
+    public function supportsReturnsTypeConverter(): void
     {
         self::assertSame($this->typeConverter, $this->subject->supports($this->typeConverter));
     }
@@ -45,7 +45,7 @@ class PropertyMapperTest extends UnitTestCase
     /**
      * @test
      */
-    public function convertSuccessfully()
+    public function convertSuccessfully(): void
     {
         $this->typeConverter->expects(self::once())->method('convert')->willReturn(true);
         self::assertTrue($this->subject->convert('array'));

@@ -41,7 +41,7 @@ class DataMapTest extends UnitTestCase
     /**
      * @test
      */
-    public function getTableNameByClassNameCalledOnceForSameClassName()
+    public function getTableNameByClassNameCalledOnceForSameClassName(): void
     {
         $expectedTableName = 'tablename';
         $dataMap = $this->getMockBuilder(CoreDataMap::class)->disableOriginalConstructor()->getMock();

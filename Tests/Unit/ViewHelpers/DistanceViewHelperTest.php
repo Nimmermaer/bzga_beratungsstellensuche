@@ -44,7 +44,7 @@ class DistanceViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function render()
+    public function render(): void
     {
         $this->geolocationService->expects(self::once())->method('calculateDistance')->willReturn(1);
         $demandPosition = $this->getMockBuilder(GeopositionInterface::class)->getMock();

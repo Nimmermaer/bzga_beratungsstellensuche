@@ -34,7 +34,7 @@ class ExplodeViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function renderWithoutRemovingEmptyValues()
+    public function renderWithoutRemovingEmptyValues(): void
     {
         $this->setRenderChildrenDefaultExpectation();
         $this->setArgumentsUnderTest($this->subject, [
@@ -49,7 +49,7 @@ class ExplodeViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function renderWithRemovingEmptyValues()
+    public function renderWithRemovingEmptyValues(): void
     {
         $this->setRenderChildrenDefaultExpectation();
         $this->setArgumentsUnderTest($this->subject, [
@@ -64,7 +64,7 @@ class ExplodeViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function renderWithRemovingEmptyValuesAndSettingsKeysAsValues()
+    public function renderWithRemovingEmptyValuesAndSettingsKeysAsValues(): void
     {
         $this->setRenderChildrenDefaultExpectation();
         $this->setArgumentsUnderTest($this->subject, [
@@ -79,14 +79,14 @@ class ExplodeViewHelperTest extends ViewHelperBaseTestcase
     /**
      * @test
      */
-    public function renderWithWrongSubjectType()
+    public function renderWithWrongSubjectType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->setArgumentsUnderTest($this->subject, ['subject' => new \stdClass()]);
         $this->subject->render();
     }
 
-    private function setRenderChildrenDefaultExpectation()
+    private function setRenderChildrenDefaultExpectation(): void
     {
         $subject = 'Title,,Subject';
         $this->subject->expects(self::once())->method('renderChildren')->willReturn($subject);

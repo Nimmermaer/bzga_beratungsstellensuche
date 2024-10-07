@@ -89,7 +89,7 @@ class EntryRepositoryTest extends FunctionalTestCase
         $this->importCSVDataSet(__DIR__ . '/../../Fixtures/be_users.csv');
         $this->setUpBackendUser(1);
         $this->entryRepository->deleteByUid(self::ENTRY_DEFAULT_FIXTURE_UID);
-        self::assertEquals(0, $this->entryRepository->countByUid(self::ENTRY_DEFAULT_FIXTURE_UID));
+        self::assertEquals(0, $this->entryRepository->count(['uid' => self::ENTRY_DEFAULT_FIXTURE_UID]));
         self::assertEquals(
             0,
             $this->selectCount(

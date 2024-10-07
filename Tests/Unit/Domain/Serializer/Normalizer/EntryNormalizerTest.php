@@ -71,7 +71,7 @@ class EntryNormalizerTest extends UnitTestCase
     /**
      * @test
      */
-    public function denormalizeEntryWithEntryNameConverter()
+    public function denormalizeEntryWithEntryNameConverter(): void
     {
         $data = [
             'bundesland' => 2,

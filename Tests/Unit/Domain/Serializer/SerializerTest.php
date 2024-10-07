@@ -79,7 +79,7 @@ class SerializerTest extends UnitTestCase
     /**
      * @test
      */
-    public function deserializeCategoryFromXml()
+    public function deserializeCategoryFromXml(): void
     {
         $xml = '<beratungsart><index>1</index><sort>2</sort><label>persönliche Beratung</label></beratungsart>';
         $object = $this->subject->deserialize($xml, Category::class, 'xml');
@@ -92,7 +92,7 @@ class SerializerTest extends UnitTestCase
      * @test
      * @dataProvider xmlProvider
      */
-    public function deserializeEntryFromXml($xml)
+    public function deserializeEntryFromXml($xml): void
     {
         $categoryMock = $this->getMockBuilder(Category::class)->getMock();
         $this->categoryRepository->expects(self::any())->method('findOneByExternalId')->willReturn($categoryMock);

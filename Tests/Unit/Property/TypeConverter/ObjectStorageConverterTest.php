@@ -47,7 +47,7 @@ class ObjectStorageConverterTest extends UnitTestCase
      * @test
      * @dataProvider unsupportedSources
      */
-    public function isNotSupported($unsupportedSource)
+    public function isNotSupported($unsupportedSource): void
     {
         self::assertFalse($this->subject->supports($unsupportedSource));
     }
@@ -57,7 +57,7 @@ class ObjectStorageConverterTest extends UnitTestCase
      * @test
      * @dataProvider unsupportedSources
      */
-    public function convertThrowsException($unsupportedSource)
+    public function convertThrowsException($unsupportedSource): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->subject->convert($unsupportedSource);
@@ -66,7 +66,7 @@ class ObjectStorageConverterTest extends UnitTestCase
     /**
      * @test
      */
-    public function convertThrowsExceptionBecauseObjectStorageContainsUnsupportedItem()
+    public function convertThrowsExceptionBecauseObjectStorageContainsUnsupportedItem(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $storage = new ObjectStorage();
@@ -77,7 +77,7 @@ class ObjectStorageConverterTest extends UnitTestCase
     /**
      * @test
      */
-    public function convertSuccessfully()
+    public function convertSuccessfully(): void
     {
         $entity1 = $this->getMockBuilder(DomainObjectInterface::class)->getMock();
         $entity1->method('getUid')->willReturn(1);

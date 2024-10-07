@@ -26,16 +26,18 @@ class StatusAllowUrlFopenOrCurlReport implements StatusProviderInterface
     public const MESSAGE = 'allow_url_fopen must be on or curl must be enabled to allow
 				communication between TYPO3 and the remote Server to fetch the XML-Url.';
 
+    public const TITLE = 'Status allow url fopen or curl report';
+
     public function getStatus(): array
     {
         $reports = [];
-        $severity = Status::OK;
+        $severity = \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::OK;
         $value = 'On';
         $message = '';
 
         // @TODO: Do we need extra proxy configuration check too?
         if (!ini_get('allow_url_fopen') && !$GLOBALS['TYPO3_CONF_VARS']['SYS']['curlUse']) {
-            $severity = Status::ERROR;
+            $severity = \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::ERROR;
             $value = 'Off';
             $message = self::MESSAGE;
         }
@@ -53,6 +55,6 @@ class StatusAllowUrlFopenOrCurlReport implements StatusProviderInterface
 
     public function getLabel(): string
     {
-       return self::MESSAGE;
+       return self::TITLE;
     }
 }

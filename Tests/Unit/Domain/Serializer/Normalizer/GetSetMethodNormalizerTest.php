@@ -55,7 +55,7 @@ class GetSetMethodNormalizerTest extends UnitTestCase
     /**
      * @test
      */
-    public function denormalizeEntryWithEntryNameConverter()
+    public function denormalizeEntryWithEntryNameConverter(): void
     {
         $latitude = (float)81;
 
@@ -70,7 +70,7 @@ class GetSetMethodNormalizerTest extends UnitTestCase
     /**
      * @test
      */
-    public function denormalizeEntryWithEntryNameConverterAndStateCallback()
+    public function denormalizeEntryWithEntryNameConverterAndStateCallback(): void
     {
         $countryZoneMock = $this->getMockBuilder(CountryZone::class)->getMock();
 

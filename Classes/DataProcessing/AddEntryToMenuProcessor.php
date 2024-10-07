@@ -63,7 +63,7 @@ final class AddEntryToMenuProcessor implements DataProcessorInterface
     protected function getRecord(): array
     {
         $entryId = 0;
-        $vars = GeneralUtility::_GET('tx_bzgaberatungsstellensuche_pi1');
+        $vars = $GLOBALS['TYPO3_REQUEST']->getQueryParams()['tx_bzgaberatungsstellensuche_pi1'];
         if (isset($vars['entry'])) {
             $entryId = (int)$vars['entry'];
         }
@@ -74,11 +74,9 @@ final class AddEntryToMenuProcessor implements DataProcessorInterface
             $row = $queryBuilder
                 ->select('*')
                 ->from('tx_bzgaberatungsstellensuche_domain_model_entry')
-                ->where(
-                    $queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($entryId, \PDO::PARAM_INT))
-                )
-                ->execute()
-                ->fetch();
+                ->where($queryBuilder->expr()->eq('uid', $queryBuilder->createNamedParameter($entryId, \PDO::PARAM_INT)))
+                ->executeQuery()
+                ->fetchAssociative();
 
             if ($row) {
                 $row = $this->getTypoScriptFrontendController()->sys_page->getRecordOverlay('tx_bzgaberatungsstellensuche_domain_model_entry', $row, $this->getCurrentLanguage());

@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 use Bzga\BzgaBeratungsstellensuche\Command\ImportCommand;
 use Bzga\BzgaBeratungsstellensuche\Command\TruncateCommand;
-use Bzga\BzgaBeratungsstellensuche\Domain\Manager\AbstractManager;
 use Bzga\BzgaBeratungsstellensuche\Domain\Map\Leaflet\MapBuilder;
 use Bzga\BzgaBeratungsstellensuche\Domain\Map\MapBuilderInterface;
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Normalizer\EntryNormalizer;
@@ -62,7 +61,8 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
 
     $services->set('event.listener.plugin_backend_preview', \Bzga\BzgaBeratungsstellensuche\EventListener\ElementPreviewEventListener::class)
         ->tag('event.listener');
-
+    $services->set('reports.status.status_allow_url_fopen_or_curl', \Bzga\BzgaBeratungsstellensuche\Report\StatusAllowUrlFopenOrCurlReport::class)
+        ->tag('reports.status');
     // Add commands
     $services->set('console.command.beratungsstellensuche_import', ImportCommand::class)
         ->tag('console.command', [

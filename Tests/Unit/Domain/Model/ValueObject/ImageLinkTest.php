@@ -19,7 +19,7 @@ class ImageLinkTest extends UnitTestCase
     /**
      * @test
      */
-    public function getCorrectIdentifierFromExternalUrl()
+    public function getCorrectIdentifierFromExternalUrl(): void
     {
         $identifier = '13e430b77537205400cfdc56aec80fcd';
         $subject    = new ImageLink('http://www.domain.com/path/to/image/pix.php?id=' . $identifier);

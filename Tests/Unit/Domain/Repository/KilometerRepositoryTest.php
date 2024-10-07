@@ -29,7 +29,7 @@ class KilometerRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function findKilometersBySettingsDefault()
+    public function findKilometersBySettingsDefault(): void
     {
         self::assertSame([10 => '10', 20 => '20', 50 => '50', 100 => '100'], $this->subject->findKilometersBySettings([]));
     }
@@ -38,7 +38,7 @@ class KilometerRepositoryTest extends UnitTestCase
      * @test
      * @dataProvider kilometers
      */
-    public function findKilometersByDefinedSettings($expected, $input)
+    public function findKilometersByDefinedSettings($expected, $input): void
     {
         $settings = ['form' => ['kilometers' => $input]];
         self::assertSame($expected, $this->subject->findKilometersBySettings($settings));
