@@ -112,7 +112,6 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
         $entity = $configuration['entity'];
 
         $fileReferenceData = [
-            'table_local' => 'sys_file',
             'tablenames' => $configuration['tableName'],
             'uid_foreign' => $configuration['tableUid'],
             'fieldname' => $configuration['tableField'],
