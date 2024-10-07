@@ -31,7 +31,7 @@
         "typo3/cms-core": "^12.4",
         "typo3/cms-reports": "^12.4",
         "typo3/cms-scheduler": "^12.4",
-        "symfony/serializer": "^5.4",
+        "symfony/serializer": "^7.0",
         "sjbr/static-info-tables": "^12.4",
         "jambagecom/static-info-tables-de": "^11.5",
         "geocoder-php/google-maps-provider": "^4.4",

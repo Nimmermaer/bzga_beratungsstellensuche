@@ -22,6 +22,7 @@ use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\File as FalFile;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\Security\FileNameValidator;
@@ -130,12 +131,11 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
             $dataMap['sys_file_reference'][$fileReferenceUid] = $fileReferenceData;
             $this->dataHandler->start($dataMap, []);
             $this->dataHandler->process_datamap();
-
+            $this->dataHandler->clear_cacheCmd('all');
             return $this->dataHandler->substNEWwithIDs[$fileReferenceUid];
         } catch (\Exception $e) {
             // TODO: Add logging here
         }
-
         // We fail gracefully here by intention
         return 0;
     }
@@ -152,11 +152,8 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
         if (is_array($imageInfo)) {
             $extension = $this->getExtensionFromMimeType($imageInfo['mime']);
             if ($extension) {
-                $pathToUploadFile = Environment::getPublicPath() . '/' . $this->tempFolder . GeneralUtility::hmac($entity->getExternalId()) . '.' . $extension;
+                $pathToUploadFile = Environment::getPublicPath() . '/' . $this->tempFolder . self::stdAuthCode($entity->getExternalId()) . '.' . $extension;
                 $error = GeneralUtility::writeFileToTypo3tempDir($pathToUploadFile, $imageContent);
-//                // due to Bug https://forge.typo3.org/issues/90063#change-431917 error always conatains something.
-//                // therefore just testing if file got uploaded
-//                $hasError = !@is_file($pathToUploadFile);
                 if ($error) {
                     throw new TypeConverterException($error, 1_399_312_443);
                 }
@@ -169,6 +166,10 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
         return $pathToUploadFile;
     }
 
+    /**
+     * @throws ResourceDoesNotExistException
+     * @throws TypeConverterException
+     */
     private function importResource(string $tempFilePath): FalFile
     {
         if (class_exists(FileNameValidator::class)) {
@@ -236,7 +237,8 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
 
             try {
                 $falFile = $this->importResource($pathToUploadFile);
-                $this->getDatabaseConnectionForTable('sys_file')->update(
+                $this->getDatabaseConnectionForTable('sys_file')
+                    ->update(
                     'sys_file',
                     ['external_identifier' => $source->getIdentifier()],
                     ['uid' => $falFile->getUid()]
@@ -253,5 +255,31 @@ class ImageLinkConverter implements TypeConverterBeforeInterface
     public function injectResourceFactory(ResourceFactory $resourceFactory): void
     {
         $this->resourceFactory = $resourceFactory;
+    }
+
+    public static function stdAuthCode($uid_or_record, $fields = '', $codeLength = 8)
+    {
+        trigger_error(
+            'GeneralUtility::stdAuthCode() is deprecated and will be removed in v12.',
+            E_USER_DEPRECATED
+        );
+
+        if (is_array($uid_or_record)) {
+            $recCopy_temp = [];
+            if ($fields) {
+                $fieldArr = GeneralUtility::trimExplode(',', $fields, true);
+                foreach ($fieldArr as $k => $v) {
+                    $recCopy_temp[$k] = $uid_or_record[$v];
+                }
+            } else {
+                $recCopy_temp = $uid_or_record;
+            }
+            $preKey = implode('|', $recCopy_temp);
+        } else {
+            $preKey = $uid_or_record;
+        }
+        $authCode = $preKey . '||' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'];
+        $authCode = substr(md5($authCode), 0, $codeLength);
+        return $authCode;
     }
 }
