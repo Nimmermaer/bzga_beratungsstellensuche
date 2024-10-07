@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Bzga\BzgaBeratungsstellensuche\Utility;
 
-use Bzga\BzgaBeratungsstellensuche\Hooks\PageLayoutView;
+use Bzga\BzgaBeratungsstellensuche\EventListener\ElementPreviewEventListener;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
@@ -45,9 +45,9 @@ class IconUtility
 
         if ($table === 'pages') {
             $id = $record['uid'];
-            $currentPageId = (int)GeneralUtility::_GET('id');
+            $currentPageId = (int)$GLOBALS['TYPO3_REQUEST']->getQueryParams()['id'];
             $link = htmlspecialchars($this->getEditLink($record, $currentPageId));
-            $switchLabel = $this->getLanguageService()->sL(PageLayoutView::LLPATH . 'pagemodule.switchToPage');
+            $switchLabel = $this->getLanguageService()->sL(ElementPreviewEventListener::LLPATH . 'pagemodule.switchToPage');
             $content .= ' <a href="#" data-toggle="tooltip" data-placement="top" data-title="' . $switchLabel . '" onclick=\'top.jump("' . $link . '", "web_layout", "web", ' . $id . ');return false\'>' . $linkTitle . '</a>';
         } else {
             $content .= $linkTitle;

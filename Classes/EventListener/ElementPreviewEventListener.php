@@ -9,23 +9,25 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Bzga\BzgaBeratungsstellensuche\Hooks;
+namespace Bzga\BzgaBeratungsstellensuche\EventListener;
 
 use Bzga\BzgaBeratungsstellensuche\Utility\ExtensionManagementUtility;
 use Bzga\BzgaBeratungsstellensuche\Utility\IconUtility;
 use Bzga\BzgaBeratungsstellensuche\Utility\TemplateLayout;
 use TYPO3\CMS\Backend\Utility\BackendUtility as BackendUtilityCore;
+use TYPO3\CMS\Backend\View\Event\PageContentPreviewRenderingEvent;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * @author Sebastian Schreiber
  */
-class PageLayoutView
+class ElementPreviewEventListener
 {
     /**
      * Extension key
@@ -46,24 +48,24 @@ class PageLayoutView
      *
      * @var array
      */
-    public $tableData = [];
+    public array $tableData = [];
 
     /**
      * Flexform information
      *
      * @var array
      */
-    public $flexformData = [];
+    public array $flexformData = [];
 
     /**
      * @var TemplateLayout
      */
-    protected $templateLayoutsUtility;
+    protected TemplateLayout $templateLayoutsUtility;
 
     /**
      * @var IconUtility
      */
-    protected $iconUtility;
+    protected IconUtility $iconUtility;
 
     /**
      * PageLayoutView constructor.
@@ -74,73 +76,19 @@ class PageLayoutView
         $this->iconUtility = GeneralUtility::makeInstance(IconUtility::class);
     }
 
-    public function getExtensionSummary(array $params): string
+    public function __invoke(PageContentPreviewRenderingEvent $event): void
     {
-        $actionTranslationKey = '';
-
-        $result = '<strong>' . $this->sL('pi1_title') . '</strong><br>';
-
-        if ($params['row']['list_type'] == self::KEY . '_pi1') {
-            $this->flexformData = GeneralUtility::xml2array($params['row']['pi_flexform']);
-
-            // if flexform data is found
-            $actions = $this->getFieldFromFlexform('switchableControllerActions');
-            if (! empty($actions)) {
-                $actionList = GeneralUtility::trimExplode(';', $actions);
-
-                // translate the first action into its translation
-                $actionTranslationKey = strtolower(str_replace('->', '_', $actionList[0]));
-                $actionTranslation = $this->sL('flexforms_general.mode.' . $actionTranslationKey);
-
-                $result .= $actionTranslation;
-            } else {
-                $result .= $this->sL('flexforms_general.mode.not_configured');
-            }
-            $result .= '<hr>';
-            if (is_array($this->flexformData)) {
-                switch ($actionTranslationKey) {
-                    case 'entry_list':
-                        $this->getStartingPoint();
-                        $this->getDetailPidSetting();
-                        $this->getListPidSetting();
-                        $this->getFormFieldsSetting();
-                        $this->getListItemsPerPageSetting();
-                        break;
-                    case 'entry_show':
-                        $this->getListPidSetting();
-                        $this->getBackPidSetting();
-                        $this->getDetailPidSetting();
-                        break;
-                    case 'entry_form':
-                        $this->getListPidSetting();
-                        $this->getFormFieldsSetting();
-                        break;
-                    default:
-                }
-
-                if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche'][self::class]['extensionSummary'])) {
-                    $params = [
-                        'action' => $actionTranslationKey,
-                    ];
-                    foreach ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche'][self::class]['extensionSummary'] as $reference) {
-                        GeneralUtility::callUserFunction($reference, $params, $this);
-                    }
-                }
-
-                // for all views
-                $this->getTemplateLayoutSettings($params['row']['pid']);
-
-                $result .= $this->renderSettingsAsTable();
-            }
+        if (str_contains($event->getRecord()['list_type'], 'bzgaberatungsstellensuche')) {
+            $this->tableData = [];
+            $result = '<strong>' . $this->sL('pi1_title') . '</strong><br>';
+            $result .= $this->generateBackendPreview($event->getRecord());
+            $event->setPreviewContent($result);
         }
-
-        return $result;
     }
 
     private function getDetailPidSetting(): void
     {
         $detailPid = (int)$this->getFieldFromFlexform('settings.singlePid', 'additional');
-
         if ($detailPid > 0) {
             $content = $this->getPageRecordData($detailPid);
 
@@ -179,6 +127,7 @@ class PageLayoutView
                 $content,
             ];
         }
+
     }
 
     private function getListItemsPerPageSetting(): void
@@ -231,7 +180,7 @@ class PageLayoutView
             FlashMessage::class,
             $text,
             '',
-            AbstractMessage::WARNING
+            \TYPO3\CMS\Core\Type\ContextualFeedbackSeverity::WARNING
         );
         $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
         $defaultFlashMessageQueue = $flashMessageService->getMessageQueueByIdentifier();
@@ -244,7 +193,7 @@ class PageLayoutView
         $field = $this->getFieldFromFlexform('settings.templateLayout', 'template');
 
         // Find correct title by looping over all options
-        if (! empty($field)) {
+        if (!empty($field)) {
             foreach ($this->templateLayoutsUtility->getAvailableTemplateLayouts($pageUid) as $layout) {
                 if ($layout[1] === $field) {
                     $title = $layout[0];
@@ -252,7 +201,7 @@ class PageLayoutView
             }
         }
 
-        if (! empty($title)) {
+        if (!empty($title)) {
             $this->tableData[] = [
                 $this->sL('flexforms_template.templateLayout'),
                 $this->sL($title),
@@ -264,21 +213,23 @@ class PageLayoutView
     {
         $value = $this->getFieldFromFlexform('settings.startingpoint');
 
-        if (! empty($value)) {
+        if (!empty($value)) {
             $pagesOut = [];
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('pages');
             $rawPagesRecords = $queryBuilder
                 ->select('*')
                 ->from('pages')
-                ->where($queryBuilder->expr()->in('uid', GeneralUtility::intExplode(',', $value, true)))
-                ->execute()
-                ->fetchAll();
+                ->where(
+                    $queryBuilder->expr()->in('uid', GeneralUtility::intExplode(',', $value, true))
+                )
+                ->executeQuery()
+                ->fetchAllAssociative();
 
             foreach ($rawPagesRecords as $page) {
                 $pagesOut[] = htmlspecialchars(BackendUtilityCore::getRecordTitle(
-                    'pages',
-                    $page
-                )) . ' (' . $page['uid'] . ')';
+                        'pages',
+                        $page
+                    )) . ' (' . $page['uid'] . ')';
             }
 
             $recursiveLevel = (int)$this->getFieldFromFlexform('settings.recursive');
@@ -289,16 +240,17 @@ class PageLayoutView
                 $recursiveLevelText = $this->getLanguageService()->sL('LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:recursive.I.' . $recursiveLevel);
             }
 
-            if (! empty($recursiveLevelText)) {
+            if (!empty($recursiveLevelText)) {
                 $recursiveLevelText = '<br />' .
-                                      $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.recursive') . ' ' .
-                                      $recursiveLevelText;
+                    $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.recursive') . ' ' .
+                    $recursiveLevelText;
             }
 
             $this->tableData[] = [
                 $this->getLanguageService()->sL('LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.startingpoint'),
                 implode(', ', $pagesOut) . $recursiveLevelText,
             ];
+
         }
     }
 
@@ -309,6 +261,7 @@ class PageLayoutView
         }
 
         $content = '';
+
         foreach ($this->tableData as $line) {
             $content .= '<strong>' . $line[0] . '</strong>' . ' ' . $line[1] . '<br />';
         }
@@ -319,6 +272,7 @@ class PageLayoutView
     private function getFieldFromFlexform(string $key, string $sheet = 'sDEF')
     {
         $flexform = $this->flexformData;
+
         if (isset($flexform['data'])) {
             $flexform = $flexform['data'];
             if (is_array($flexform) && is_array($flexform[$sheet]) && is_array($flexform[$sheet]['lDEF'])
@@ -349,4 +303,39 @@ class PageLayoutView
     {
         return $GLOBALS['LANG'];
     }
+
+    private function generateBackendPreview(array $record): string
+    {
+        $this->flexformData = GeneralUtility::xml2array($record['pi_flexform']);
+        switch ($record['list_type']) {
+            case 'bzgaberatungsstellensuche_pi1':
+                $this->getStartingPoint();
+                $this->getDetailPidSetting();
+                $this->getListPidSetting();
+                $this->getFormFieldsSetting();
+                $this->getListItemsPerPageSetting();
+                break;
+            case 'bzgaberatungsstellensuche_detail':
+                $this->getListPidSetting();
+                $this->getBackPidSetting();
+                $this->getDetailPidSetting();
+                break;
+            case 'bzgaberatungsstellensuche_form':
+                $this->getListPidSetting();
+                $this->getFormFieldsSetting();
+                break;
+            default:
+        }
+        if ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche'][self::class]['extensionSummary'] ?? '') {
+            $params = [
+                'action' => LocalizationUtility::translate('LLL:EXT:bzga_beratungsstellensuche/Resources/Private/Language/locallang_be.xlf:' . $record['list_type']),
+            ];
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXT']['bzga_beratungsstellensuche'][self::class]['extensionSummary'] as $reference) {
+                GeneralUtility::callUserFunction($reference, $params, $this);
+            }
+        }
+        $this->getTemplateLayoutSettings($record['pid']);
+        return $this->renderSettingsAsTable();
+    }
+
 }

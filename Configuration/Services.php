@@ -60,6 +60,8 @@ return static function (ContainerConfigurator $containerConfigurator, ContainerB
         ->arg('$dataMapFactory', service(DataMapFactory::class))
         ->public();
 
+    $services->set('event.listener.plugin_backend_preview', \Bzga\BzgaBeratungsstellensuche\EventListener\ElementPreviewEventListener::class)
+        ->tag('event.listener');
 
     // Add commands
     $services->set('console.command.beratungsstellensuche_import', ImportCommand::class)
