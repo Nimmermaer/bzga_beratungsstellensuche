@@ -30,6 +30,7 @@ use TYPO3\CMS\Core\Pagination\ArrayPaginator;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Pagination\QueryResultPaginator;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
@@ -177,7 +178,6 @@ class EntryController extends ActionController
     public function mapJavaScriptAction(string $mapId, ?Entry $mainEntry = null, ?Demand $demand = null): ResponseInterface
     {
         $this->view->assign('mapId', $mapId);
-
         // These are only some defaults and can be overridden via a hook method
         $map = $this->mapBuilder->createMap($mapId);
 
@@ -226,16 +226,21 @@ class EntryController extends ActionController
             $infoWindowParameters = [];
 
             // Current marker does not need detail link
-            if (!$isCurrentMarker) {
+           if (!$isCurrentMarker) {
                 $detailsPid = (int)($this->settings['singlePid'] ?? $this->getTyposcriptFrontendController()->id);
-                $uriBuilder = $this->controllerContext->getUriBuilder();
-                $infoWindowParameters['detailLink'] = $uriBuilder->reset()->setTargetPageUid($detailsPid)->uriFor(
-                    'show',
-                    ['entry' => $entry],
-                    'Entry'
-                );
+                $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+                $infoWindowParameters['detailLink'] =
+                    $uriBuilder
+                        ->reset()
+                        ->setRequest($this->request)
+                        ->setTargetPageUid($detailsPid)->uriFor(
+                            'show',
+                            ['entry' => $entry],
+                            'Entry',
+                            'BzgaBeratungsstellensuche',
+                            'MapJavaScript'
+                        );
             }
-
             // Create Info Window
             $popUp = $this->mapBuilder->createPopUp('popUp');
 
@@ -303,24 +308,6 @@ class EntryController extends ActionController
         $country->setIsoCodeNumber(self::GERMANY_ISOCODENUMBER);
 
         return $this->countryZoneRepository->findByCountryOrderedByLocalizedName($country);
-    }
-
-
-    private function emitActionSignal(string $signalName, array $assignedViewValues): array
-    {
-        $signalArguments = [];
-        $signalArguments[] = [];
-
-        $additionalViewValues = $this->signalSlotDispatcher->dispatch(static::class, $signalName, $signalArguments);
-
-        if (
-            is_array($additionalViewValues) &&
-            array_key_exists('extendedVariables', $additionalViewValues) &&
-            is_array($additionalViewValues['extendedVariables'])
-        ) {
-            return array_merge($assignedViewValues, $additionalViewValues['extendedVariables']);
-        }
-        return $assignedViewValues;
     }
 
     private function addDemandRequestArgumentFromSession(): void
