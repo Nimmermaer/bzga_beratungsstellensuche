@@ -28,8 +28,8 @@ class TemplateLayoutTest extends FunctionalTestCase
      * @var array
      */
     protected $testExtensionsToLoad = [
-        'typo3conf/ext/static_info_tables',
-        'typo3conf/ext/bzga_beratungsstellensuche',
+        'vendor/sjbr/static-info-tables',
+        'packages/bzga_beratungsstellensuche',
     ];
 
     protected function setUp(): void

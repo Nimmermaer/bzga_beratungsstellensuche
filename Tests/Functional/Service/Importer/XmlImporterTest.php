@@ -38,7 +38,7 @@ class XmlImporterTest extends FunctionalTestCase
     /**
      * @var array
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/bzga_beratungsstellensuche', 'typo3conf/ext/static_info_tables', 'typo3conf/ext/static_info_tables_de'];
+    protected $testExtensionsToLoad = ['packages/bzga_beratungsstellensuche', 'vendor/sjbr/static-info-tables', 'vendor/jambagecom/static-info-tables-de'];
 
     /**
      * @var array

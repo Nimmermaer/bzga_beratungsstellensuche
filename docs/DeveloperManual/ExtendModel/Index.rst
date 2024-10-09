@@ -102,7 +102,7 @@ BzgaBeratungsstellensuche.txt mit folgendem Inhalt:
 
 Eigene Klasse
 """""""""""""
-Erstellen Sie nun eine Datei ``typo3conf/ext/bzga_beratungsstellensuche_extended/Classes/Domain/Model/Entry.php``.
+Erstellen Sie nun eine Datei ``packages/bzga_beratungsstellensuche_extended/Classes/Domain/Model/Entry.php``.
 
 .. code-block:: php
 

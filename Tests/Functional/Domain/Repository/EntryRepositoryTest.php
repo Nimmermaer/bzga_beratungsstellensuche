@@ -28,13 +28,13 @@ class EntryRepositoryTest extends FunctionalTestCase
     /**
      * @var array
      */
-    protected $testExtensionsToLoad = ['typo3conf/ext/bzga_beratungsstellensuche', 'typo3conf/ext/static_info_tables'];
+    protected $testExtensionsToLoad = ['packages/bzga_beratungsstellensuche', 'vendor/sjbr/static-info-tables'];
 
     /**
      * @var array
      */
     protected $pathsToLinkInTestInstance = [
-        'typo3conf/ext/bzga_beratungsstellensuche/Tests/Functional/Fixtures/Files/fileadmin/user_upload' => 'fileadmin/user_upload',
+        'packages/bzga_beratungsstellensuche/Tests/Functional/Fixtures/Files/fileadmin/user_upload' => 'fileadmin/user_upload',
     ];
 
     private const ENTRY_DEFAULT_FIXTURE_UID = 1;
