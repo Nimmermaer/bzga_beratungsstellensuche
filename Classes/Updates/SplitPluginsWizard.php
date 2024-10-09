@@ -95,7 +95,7 @@ class SplitPluginsWizard extends AbstractMigrationWizard implements UpgradeWizar
             $this->updateContentElement($record['uid'], $targetListType, $newFlexform);
         }
 
-        return false;
+        return true;
     }
 
     /**
