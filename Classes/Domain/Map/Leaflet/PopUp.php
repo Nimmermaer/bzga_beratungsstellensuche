@@ -34,6 +34,7 @@ final class PopUp implements PopUpInterface
 
     public function setOptions(array $options): void
     {
+        // @extensionScannerIgnoreLine
         $this->popUp->setOptions($options);
     }
 }

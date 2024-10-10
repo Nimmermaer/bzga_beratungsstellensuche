@@ -18,7 +18,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use SJBR\StaticInfoTables\Domain\Model\CountryZone;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -31,10 +30,6 @@ class GetSetMethodNormalizerTest extends UnitTestCase
      */
     protected $subject;
 
-    /**
-     * @var Dispatcher|MockObject
-     */
-    protected $signalSlotDispatcher;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject\MockObject|SerializerNormalizer
@@ -43,12 +38,10 @@ class GetSetMethodNormalizerTest extends UnitTestCase
 
     protected function setUp(): void
     {
-        $this->signalSlotDispatcher = $this->getMockBuilder(Dispatcher::class)->disableOriginalConstructor()->getMock();
         $this->serializer = $this->getMockForAbstractClass(SerializerNormalizer::class);
         $dispatcher = $this->getMockBuilder(Dispatcher::class)->disableOriginalConstructor()->getMock();
         $dispatcher->method('dispatch')->willReturn(['extendedMapNames' => []]);
         $this->subject = new GetSetMethodNormalizer(null, new EntryNameConverter([], true, $dispatcher));
-        $this->subject->injectSignalSlotDispatcher($this->signalSlotDispatcher);
         $this->subject->setSerializer($this->serializer);
     }
 

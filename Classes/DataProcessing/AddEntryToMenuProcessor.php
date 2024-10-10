@@ -79,6 +79,7 @@ final class AddEntryToMenuProcessor implements DataProcessorInterface
                 ->fetchAssociative();
 
             if ($row) {
+                // @extensionScannerIgnoreLine
                 $row = $this->getTypoScriptFrontendController()->sys_page->getRecordOverlay('tx_bzgaberatungsstellensuche_domain_model_entry', $row, $this->getCurrentLanguage());
             }
 

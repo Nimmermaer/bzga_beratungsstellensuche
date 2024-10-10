@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Bzga\BzgaBeratungsstellensuche\Tests\Unit\Domain\Serializer\NameConverter;
 
 use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\NameConverter\EntryNameConverter;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 
 class EntryNameConverterTest extends AbstractNameConverterTest
 {

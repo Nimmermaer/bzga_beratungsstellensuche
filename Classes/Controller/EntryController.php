@@ -227,6 +227,7 @@ class EntryController extends ActionController
 
             // Current marker does not need detail link
            if (!$isCurrentMarker) {
+                // @extensionScannerIgnoreLine
                 $detailsPid = (int)($this->settings['singlePid'] ?? $this->getTyposcriptFrontendController()->id);
                 $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
                 $infoWindowParameters['detailLink'] =
@@ -289,7 +290,7 @@ class EntryController extends ActionController
 
     private function getTyposcriptFrontendController(): TypoScriptFrontendController
     {
-        return $GLOBALS['TSFE'];
+        return $this->request->getAttribute('frontend.controller');
     }
 
     public function autocompleteAction(string $q): ResponseInterface

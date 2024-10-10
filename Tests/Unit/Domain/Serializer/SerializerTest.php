@@ -21,7 +21,6 @@ use Bzga\BzgaBeratungsstellensuche\Domain\Serializer\Serializer;
 use PHPUnit\Framework\MockObject\MockObject;
 use SJBR\StaticInfoTables\Domain\Model\CountryZone;
 use SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -49,10 +48,6 @@ class SerializerTest extends UnitTestCase
      */
     protected $entryNormalizer;
 
-    /**
-     * @var Dispatcher|MockObject
-     */
-    protected $signalSlotDispatcher;
 
     protected function setUp(): void
     {
@@ -60,12 +55,9 @@ class SerializerTest extends UnitTestCase
         $dispatcher->method('dispatch')->willReturn(['extendedMapNames' => []]);
         $this->entryNormalizer = new EntryNormalizer(null, $dispatcher);
         $this->resetSingletonInstances = true;
-        $this->signalSlotDispatcher = $this->getMockBuilder(Dispatcher::class)->disableOriginalConstructor()->getMock();
-        $this->signalSlotDispatcher->method('dispatch')->willReturn(['extendedNormalizers' => []]);
         $this->countryZoneRepository = $this->getMockBuilder(CountryZoneRepository::class)->setMethods(['findOneByExternalId'])->disableOriginalConstructor()->getMock();
         $this->categoryRepository = $this->getMockBuilder(CategoryRepository::class)->setMethods(['findOneByExternalId'])->disableOriginalConstructor()->getMock();
 
-        $this->entryNormalizer->injectSignalSlotDispatcher($this->signalSlotDispatcher);
         $this->entryNormalizer->injectCategoryRepository($this->categoryRepository);
         $this->entryNormalizer->injectCountryZoneRepository($this->countryZoneRepository);
 
@@ -73,7 +65,7 @@ class SerializerTest extends UnitTestCase
             $this->entryNormalizer,
             new GetSetMethodNormalizer(null, new BaseMappingNameConverter([], true, $dispatcher)),
         ];
-        $this->subject = new Serializer($normalizers, [], $this->signalSlotDispatcher);
+        $this->subject = new Serializer($normalizers, []);
     }
 
     /**

@@ -105,6 +105,7 @@ final class ImportCommand extends Command
             }
         }
         $this->importer->persist();
+        // @extensionScannerIgnoreLine
         $progressBar->finish();
         $this->importer->cleanUp();
     }

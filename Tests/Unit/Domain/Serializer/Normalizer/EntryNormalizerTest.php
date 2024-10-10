@@ -19,7 +19,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use SJBR\StaticInfoTables\Domain\Model\CountryZone;
 use SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository;
 use Symfony\Component\Serializer\SerializerInterface;
-use TYPO3\CMS\Extbase\SignalSlot\Dispatcher;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -47,23 +46,16 @@ class EntryNormalizerTest extends UnitTestCase
      */
     protected $categoryRepository;
 
-    /**
-     * @var Dispatcher|MockObject
-     */
-    protected $signalSlotDispatcher;
+
 
     protected function setUp(): void
     {
-        $this->signalSlotDispatcher = $this->getMockBuilder(Dispatcher::class)->disableOriginalConstructor()->getMock();
         $this->countryZoneRepository = $this->getMockBuilder(CountryZoneRepository::class)->setMethods(['findOneByExternalId'])->disableOriginalConstructor()->getMock();
         $this->categoryRepository = $this->getMockBuilder(CategoryRepository::class)->setMethods(['findOneByExternalId'])->disableOriginalConstructor()->getMock();
         $this->serializer = $this->getMockForAbstractClass(SerializerNormalizer::class);
 
-        $dispatcher = $this->getMockBuilder(Dispatcher::class)->disableOriginalConstructor()->getMock();
-        $dispatcher->method('dispatch')->willReturn(['extendedMapNames' => []]);
-        $this->subject = new EntryNormalizer(null, $dispatcher);
+        $this->subject = new EntryNormalizer(null);
         $this->subject->setSerializer($this->serializer);
-        $this->subject->injectSignalSlotDispatcher($this->signalSlotDispatcher);
         $this->subject->injectCategoryRepository($this->categoryRepository);
         $this->subject->injectCountryZoneRepository($this->countryZoneRepository);
     }

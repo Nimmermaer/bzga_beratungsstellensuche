@@ -37,6 +37,7 @@ final class Marker implements MarkerInterface
 
     public function setOptions(array $options): void
     {
+        // @extensionScannerIgnoreLine
         $this->marker->setOptions($options);
     }
 

@@ -36,6 +36,7 @@ final class MarkerCluster implements MarkerClusterInterface
 
     public function setOptions(array $options): void
     {
+        // @extensionScannerIgnoreLine
         $this->markerCluster->setOptions($options);
     }
 }
